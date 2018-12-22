@@ -8,14 +8,14 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private JButton backButton;
   private JPanel leftPanel, rightPanel;
   private Image gameImg;
-  private JLabel [] playerLabel;
+  private JLabel [][] playerLabel;
   private JButton [] moveButtons;
   private String player;
-  private int columnNumber;
+  private int playerColumn, playerRow;
 
   public GamePanel () {
     moveButtons = new JButton[7]; //Seven game column
-    playerLabel = new JLabel[42]; //Forth two total places on the board
+    playerLabel = new JLabel[6][7]; //Forth two total places on the board
     setMoveButtons();
 
     //Set panel properties
@@ -88,7 +88,9 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     System.out.println(columnNumber);
   }
 
-  public void setCredentials () {
+  public void setCredentials (String player, int row) {
+    this.player = player;
+    this.playerRow = row;
 
   }
 

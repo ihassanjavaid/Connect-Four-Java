@@ -1,4 +1,4 @@
 public interface Playable {
   void makeMove(int columnNumber);
-  void setCredentials();
+  void setCredentials(String player, int row);
 }
