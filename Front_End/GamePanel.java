@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 public class GamePanel extends JPanel implements ActionListener, Playable {
   private GameFrame parent;
   private JButton backButton;
@@ -17,6 +18,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     moveButtons = new JButton[7]; //Seven game column
     playerLabel = new JLabel[6][7]; //Forth two total places on the board
     setMoveButtons();
+    initialisePlayerLabels();
 
     //Set panel properties
     setBounds(0, 0, 1005, 845);
@@ -27,13 +29,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
 
-    moveButtons[0].setBounds(165, 670, 90, 70);
-    moveButtons[1].setBounds(265, 670, 90, 70);
-    moveButtons[2].setBounds(365, 670, 90, 70);
-    moveButtons[3].setBounds(465, 670, 90, 70);
-    moveButtons[4].setBounds(565, 670, 90, 70);
-    moveButtons[5].setBounds(665, 670, 90, 70);
-    moveButtons[6].setBounds(765, 670, 90, 70);
+    moveButtons[0].setBounds(175, 670, 90, 70);
+    moveButtons[1].setBounds(275, 670, 90, 70);
+    moveButtons[2].setBounds(375, 670, 90, 70);
+    moveButtons[3].setBounds(475, 670, 90, 70);
+    moveButtons[4].setBounds(575, 670, 90, 70);
+    moveButtons[5].setBounds(675, 670, 90, 70);
+    moveButtons[6].setBounds(775, 670, 90, 70);
 
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
@@ -42,6 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   }
 
+  //Method to initialise and set move buttons
   private void setMoveButtons () {
     ImageIcon [] buttonImg = new ImageIcon [7];
     String loc;
@@ -62,6 +65,16 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
   }
 
+  private void initialisePlayerLabels () {
+    for (int row = 0; row < 6; row++){
+      for (int column = 0; column < 7; column++){
+        playerLabel[row][column] = new JLabel();
+        playerLabel[row][column].setVisible(false);
+        add(playerLabel[row][column]);
+      }
+    }
+  }
+
   protected void setParent (GameFrame parent) {
     this.parent = parent;
   }
@@ -78,8 +91,11 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
     else{
       for (int i = 0; i < 7; i++) {
-        if (eventHolder == moveButtons[i])
+        if (eventHolder == moveButtons[i]){
           makeMove(i);
+          playerLabel[0][0].setBounds(165, 680, 80, 80);
+          playerLabel[0][0].setVisible(true);
+        }
       }
     }
   }
@@ -91,6 +107,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   public void setCredentials (String player, int row) {
     this.player = player;
     this.playerRow = row;
+    updateBoard();
+  }
+
+  private void updateBoard(){
 
   }
 
