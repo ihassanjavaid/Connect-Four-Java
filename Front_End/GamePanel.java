@@ -3,13 +3,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GamePanel extends JPanel implements ActionListener{
+public class GamePanel extends JPanel implements ActionListener, Playable {
   private GameFrame parent;
   private JButton backButton;
   private JPanel leftPanel, rightPanel;
   private Image gameImg;
   private JLabel [] playerLabel;
   private JButton [] moveButtons;
+  private String player;
+  private int columnNumber;
 
   public GamePanel () {
     moveButtons = new JButton[7]; //Seven game column
@@ -33,9 +35,7 @@ public class GamePanel extends JPanel implements ActionListener{
     moveButtons[5].setBounds(665, 670, 90, 70);
     moveButtons[6].setBounds(765, 670, 90, 70);
 
-
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
-
 
     //Add components
     add(backButton);
@@ -58,7 +58,6 @@ public class GamePanel extends JPanel implements ActionListener{
       moveButtons[i].setFocusPainted(false);
       moveButtons[i].addActionListener(this);
       add(moveButtons[i]);
-
 
     }
   }
@@ -83,13 +82,14 @@ public class GamePanel extends JPanel implements ActionListener{
           makeMove(i);
       }
     }
-
-
   }
 
   public void makeMove (int columnNumber) {
-
     System.out.println(columnNumber);
+  }
+
+  public void setCredentials () {
+
   }
 
 }
