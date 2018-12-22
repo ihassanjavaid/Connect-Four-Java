@@ -52,7 +52,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
     for (int i = 0; i < 7; i++){
       moveButtons[i] = new JButton(buttonImg[i]);
-      moveButtons[i].addActionListener(this);
       moveButtons[i].setOpaque(false);
       moveButtons[i].setBorderPainted(false);
       moveButtons[i].setContentAreaFilled(false);
@@ -78,11 +77,19 @@ public class GamePanel extends JPanel implements ActionListener{
     if (eventHolder == backButton){
       parent.showWelcomeScreen();
     }
-    else if (moveButtons[0] == eventHolder){
-
+    else{
+      for (int i = 0; i < 7; i++) {
+        if (eventHolder == moveButtons[i])
+          makeMove(i);
+      }
     }
 
 
+  }
+
+  public void makeMove (int columnNumber) {
+
+    System.out.println(columnNumber);
   }
 
 }
