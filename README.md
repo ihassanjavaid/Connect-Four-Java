@@ -3,7 +3,7 @@ Connect Four Game, to be made through Java, as the semester project of Object Or
 
 
 # The mighty team includes
-## 1. Hassan Javed
-## 2. Mahnoor Fatima Saad
+## 1. Mahnoor Fatima Saad
+## 2. Muhammad Hasan Malik
 ## 3. Muhammad Osama Saleem
 ## 4. Muhammad Talha Bin Mansoor
