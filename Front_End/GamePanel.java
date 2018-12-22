@@ -7,15 +7,15 @@ public class GamePanel extends JPanel implements ActionListener{
   private JButton closeButton;
 
   public GamePanel () {
-    setBackground(Color.YELLOW);
-    setPreferredSize(new Dimension(1000, 1000));
+    //setBackground(Color.YELLOW);
+    setPreferredSize(new Dimension(1080, 850));
     setBounds(0, 0, 1000, 1000);
-    setOpaque(true);
+
 
     closeButton = new JButton("Close");
     closeButton.addActionListener(this);
 
-    add(closeButton);
+    //add(closeButton);
   }
 
   public void actionPerformed (ActionEvent event) {

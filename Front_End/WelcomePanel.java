@@ -8,29 +8,29 @@ public class WelcomePanel extends JPanel implements ActionListener{
   private JPanel mainPanel;
   private JButton playButton, closeButton;
   private GameFrame parent;
+  private Image backgroundImage;
+  private ImageIcon play, exit;
 
   //No-args constructor
   public WelcomePanel () {
-    //Set propersties
-    setBackground(Color.green);
-    setPreferredSize(new Dimension(1000, 1000));
+    //Set panel propersties
     setBounds(0, 0, 1000, 1000);
-    setOpaque(true);
     setLayout(null);
 
     //Initialise components
+    backgroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Main Screen.png").getImage();
+    play = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Play button.png");
 
-    playButton = new JButton("Play");
+    playButton = new JButton(play);
+    playButton.setOpaque(false);
     playButton.addActionListener(this);
 
-    closeButton = new JButton("Close");
+    closeButton = new JButton("Exit");
     closeButton.addActionListener(this);
 
     //Add components
-    add(playButton).setBounds(450, 500, 100, 35);
-    add(closeButton).setBounds(450, 535, 100, 35);
-
-    setVisible(true);
+    add(playButton).setBounds(450, 500, 500, 200);
+    //add(closeButton).setBounds(450, 535, 100, 35);
 
   }
 
@@ -38,6 +38,9 @@ public class WelcomePanel extends JPanel implements ActionListener{
     this.parent = parent;
   }
 
+  public void paintComponent (Graphics g) {
+    g.drawImage(backgroundImage, 0, 0, 1000, 815, this);
+  }
 
   public void actionPerformed(ActionEvent event) {
     Object eventHolder = event.getSource();
@@ -50,6 +53,5 @@ public class WelcomePanel extends JPanel implements ActionListener{
     }
 
   }
-
 
 }
