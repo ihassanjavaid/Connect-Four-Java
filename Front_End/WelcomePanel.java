@@ -14,7 +14,7 @@ public class WelcomePanel extends JPanel implements ActionListener{
   //No-args constructor
   public WelcomePanel () {
     //Set panel propersties
-    setBounds(0, 0, 1000, 1000);
+    setBounds(0, 0, 1005, 845);
     setLayout(null);
 
     //Initialise components

@@ -38,6 +38,10 @@ public class GameFrame {
     game.showGameScreen();
   }
 
+  protected void showWelcomeScreen () {
+    game.showWelcomeScreen();
+  }
+
 
   public static void main (String [] args) {
     new GameFrame();

@@ -4,25 +4,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements ActionListener{
+  private GameFrame parent;
   private JButton closeButton;
+  private JPanel leftPanel, rightPanel;
 
   public GamePanel () {
-    //setBackground(Color.YELLOW);
-    setPreferredSize(new Dimension(1080, 850));
-    setBounds(0, 0, 1000, 1000);
+    //Set panel properties
+    setBackground(Color.YELLOW);
+    setBounds(0, 0, 1005, 845);
+    setLayout(new BorderLayout());
 
+    //Initialise components
 
-    closeButton = new JButton("Close");
+    closeButton = new JButton("Back");
     closeButton.addActionListener(this);
 
-    //add(closeButton);
+    //Add components
+    add(closeButton, BorderLayout.NORTH);
+
+  }
+
+  protected void setParent (GameFrame parent) {
+    this.parent = parent;
   }
 
   public void actionPerformed (ActionEvent event) {
     Object eventHolder = event.getSource();
 
     if (eventHolder == closeButton){
-      System.exit(0);
+      parent.showWelcomeScreen();
     }
 
   }
