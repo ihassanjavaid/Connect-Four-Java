@@ -5,15 +5,15 @@ import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements ActionListener{
   private GameFrame parent;
-  private JButton closeButton;
+  private JButton backButton;
   private JPanel leftPanel, rightPanel;
   private Image gameImg;
-  private JLabel [] player1, player2, buttonImgs;
+  private JLabel [] playerLabel;
   private JButton [] moveButtons;
 
   public GamePanel () {
-    moveButtons = new JButton[7];
-    buttonImgs = new JLabel [7];
+    moveButtons = new JButton[7]; //Seven game column
+    playerLabel = new JLabel[42]; //Forth two total places on the board
     setMoveButtons();
 
     //Set panel properties
@@ -21,9 +21,9 @@ public class GamePanel extends JPanel implements ActionListener{
     setLayout(null);
 
     //Initialise components
-    closeButton = new JButton("Back");
-    closeButton.setBounds(900, 785, 100, 25);
-    closeButton.addActionListener(this);
+    backButton = new JButton("Back");
+    backButton.setBounds(900, 785, 100, 25);
+    backButton.addActionListener(this);
 
     moveButtons[0].setBounds(165, 670, 90, 70);
     moveButtons[1].setBounds(265, 670, 90, 70);
@@ -38,8 +38,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
 
     //Add components
-    add(closeButton);
-
+    add(backButton);
 
   }
 
@@ -52,7 +51,6 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     for (int i = 0; i < 7; i++){
-      buttonImgs[i] = new JLabel(buttonImg[i]);
       moveButtons[i] = new JButton(buttonImg[i]);
       moveButtons[i].addActionListener(this);
       moveButtons[i].setOpaque(false);
@@ -77,8 +75,11 @@ public class GamePanel extends JPanel implements ActionListener{
   public void actionPerformed (ActionEvent event) {
     Object eventHolder = event.getSource();
 
-    if (eventHolder == closeButton){
+    if (eventHolder == backButton){
       parent.showWelcomeScreen();
+    }
+    else if (moveButtons[0] == eventHolder){
+
     }
 
 
