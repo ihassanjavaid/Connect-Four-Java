@@ -5,8 +5,6 @@ import java.awt.*;
 public class GameFrame {
   //Class attributes
   private JFrame gameFrame;
-  //private WelcomePanel welcomeScreen;
-  //private GamePanel gameScreen;
   private GameContainer game;
 
   //No-args constructor

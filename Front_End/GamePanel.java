@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 public class GamePanel extends JPanel implements ActionListener, Playable {
   private GameFrame parent;
   private JButton backButton;
@@ -15,6 +14,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private String player = "o";
   private int playerColumn, playerRow;
 
+  //No-args constructor
   public GamePanel () {
     moveButtons = new JButton[7]; //Seven game column
     playerLabel = new JLabel[6][7]; //Forth two total places on the board
@@ -57,7 +57,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       moveButtons[i].addActionListener(this);
       add(moveButtons[i]);
       x_pos += 100;
-
     }
   }
 
