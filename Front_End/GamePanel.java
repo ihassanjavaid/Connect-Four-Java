@@ -9,9 +9,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private JButton backButton;
   private JPanel leftPanel, rightPanel;
   private Image gameImg;
+  private ImageIcon playerPiece;
   private JLabel [][] playerLabel;
   private JButton [] moveButtons;
-  private String player;
+  private String player = "o";
   private int playerColumn, playerRow;
 
   public GamePanel () {
@@ -66,10 +67,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   }
 
   private void initialisePlayerLabels () {
+    int [] row_pos = {167, 267, 367, 467, 568, 668, 770};
+    int [] column_pos = {567, 467, 367, 265, 165, 65};
     for (int row = 0; row < 6; row++){
       for (int column = 0; column < 7; column++){
         playerLabel[row][column] = new JLabel();
         playerLabel[row][column].setVisible(false);
+        playerLabel[row][column].setBounds(row_pos[row], column_pos[column], 90, 90);
         add(playerLabel[row][column]);
       }
     }
@@ -93,8 +97,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       for (int i = 0; i < 7; i++) {
         if (eventHolder == moveButtons[i]){
           makeMove(i);
-          playerLabel[0][0].setBounds(165, 680, 80, 80);
-          playerLabel[0][0].setVisible(true);
         }
       }
     }
@@ -107,13 +109,23 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   public void setCredentials (String player, int row) {
     this.player = player;
     this.playerRow = row;
+    setPlayerPiece();
     updateBoard();
   }
 
-  private void updateBoard(){
+  private void setPlayerPiece () {
+    if (this.player.equals("o"))
+      this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
+    else
+      this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
+  }
 
+  private void updateBoard () {
+    playerLabel[playerRow][playerColumn].setIcon(playerPiece);
+    playerLabel[playerRow][playerColumn].setVisible(true);
   }
 
 }
 
 //System.out.println()
+//65, 165
