@@ -30,14 +30,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
 
-    moveButtons[0].setBounds(175, 670, 90, 70);
-    moveButtons[1].setBounds(275, 670, 90, 70);
-    moveButtons[2].setBounds(375, 670, 90, 70);
-    moveButtons[3].setBounds(475, 670, 90, 70);
-    moveButtons[4].setBounds(575, 670, 90, 70);
-    moveButtons[5].setBounds(675, 670, 90, 70);
-    moveButtons[6].setBounds(775, 670, 90, 70);
-
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
     //Add components
@@ -47,6 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   //Method to initialise and set move buttons
   private void setMoveButtons () {
+    int x_pos = 175;
     ImageIcon [] buttonImg = new ImageIcon [7];
     String loc;
     for (int i = 0; i < 7; i++) {
@@ -60,15 +53,19 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       moveButtons[i].setBorderPainted(false);
       moveButtons[i].setContentAreaFilled(false);
       moveButtons[i].setFocusPainted(false);
+      moveButtons[i].setBounds(x_pos, 670, 90, 70);
       moveButtons[i].addActionListener(this);
       add(moveButtons[i]);
+      x_pos += 100;
 
     }
   }
 
   private void initialisePlayerLabels () {
-    int [] row_pos = {167, 267, 367, 467, 568, 668, 770};
-    int [] column_pos = {567, 467, 367, 265, 165, 65};
+    //Fixed position of the game board for the player pieces
+    int [] column_pos = {167, 267, 367, 467, 568, 668, 770};
+    int [] row_pos = {567, 467, 367, 265, 165, 65};
+
     for (int row = 0; row < 6; row++){
       for (int column = 0; column < 7; column++){
         playerLabel[row][column] = new JLabel();
@@ -92,6 +89,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
     if (eventHolder == backButton){
       parent.showWelcomeScreen();
+      playerLabel = new JLabel[6][7];
+      initialisePlayerLabels();
     }
     else{
       for (int i = 0; i < 7; i++) {
@@ -113,6 +112,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     updateBoard();
   }
 
+  //Method decides the image of the piece as per current player
   private void setPlayerPiece () {
     if (this.player.equals("o"))
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
@@ -120,12 +120,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
   }
 
+  //This method simple label image and displays the label
   private void updateBoard () {
     playerLabel[playerRow][playerColumn].setIcon(playerPiece);
     playerLabel[playerRow][playerColumn].setVisible(true);
   }
 
 }
-
-//System.out.println()
-//65, 165
