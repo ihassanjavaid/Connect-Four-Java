@@ -15,8 +15,9 @@ public class GameFrame {
     gameFrame = new JFrame("Connect-4");
 
     //Set frame properties
-    gameFrame.setPreferredSize(new Dimension(1018, 855));
+    gameFrame.setPreferredSize(new Dimension(1005, 845));
     gameFrame.setLocation(500, 100);
+    gameFrame.setResizable(false);
     gameFrame.setLayout(new BorderLayout());
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

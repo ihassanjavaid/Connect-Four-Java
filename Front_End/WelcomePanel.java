@@ -20,17 +20,25 @@ public class WelcomePanel extends JPanel implements ActionListener{
     //Initialise components
     backgroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Main Screen.png").getImage();
     play = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Play button.png");
+    exit = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Exit button.png");
 
     playButton = new JButton(play);
     playButton.setOpaque(false);
+    playButton.setBorderPainted(false);
+    playButton.setContentAreaFilled(false);
+    playButton.setFocusPainted(false);
     playButton.addActionListener(this);
 
-    closeButton = new JButton("Exit");
+    closeButton = new JButton(exit);
+    closeButton.setOpaque(false);
+    closeButton.setBorderPainted(false);
+    closeButton.setContentAreaFilled(false);
+    closeButton.setFocusPainted(false);
     closeButton.addActionListener(this);
 
     //Add components
-    add(playButton).setBounds(450, 500, 500, 200);
-    //add(closeButton).setBounds(450, 535, 100, 35);
+    add(playButton).setBounds(370, 380, 290, 130);
+    add(closeButton).setBounds(370, 510, 290, 130);
 
   }
 
