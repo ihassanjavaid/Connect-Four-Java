@@ -14,6 +14,7 @@ public class Player {
         this.playerColumn = playerColumn;
     }
 
+
     public String getPlayerMarker () {
         return this.playerMarker;
     }

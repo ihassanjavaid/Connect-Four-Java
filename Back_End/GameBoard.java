@@ -2,12 +2,11 @@ package Back_End;
 
 public class GameBoard {
     private String [][] gameBoard;
-    private Judge victoryJudge;
+
 
     public GameBoard () {
         this.gameBoard = new String [6][7];
         initialiseGameBoard();
-        victoryJudge = new Judge(this);
     }
 
     private void initialiseGameBoard () {
@@ -33,8 +32,5 @@ public class GameBoard {
         return this.gameBoard[row][column];
     }
 
-    protected Judgement checkForVictory (String playerMarker, int playerRow, int playerColumn) {
-        return victoryJudge.makeJudgement(playerMarker, playerRow, playerColumn);
-    }
 
 }

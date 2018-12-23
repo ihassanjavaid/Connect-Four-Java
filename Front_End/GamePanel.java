@@ -14,11 +14,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private JLabel [][] playerLabel;
   private JButton [] moveButtons;
   private String playerMarker = "o";
-  private Playable gamePlay;
   private int playerColumn, playerRow;
+  private Judgement judgement;
+  private Playable gamePlay;
 
   //No-args constructor
   public GamePanel () {
+    judgement = new Judgement();
     moveButtons = new JButton[7]; //Seven game column
     playerLabel = new JLabel[6][7]; //Forth two total places on the board
     setMoveButtons();
@@ -38,10 +40,11 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     //Add components
     add(backButton);
 
-    gamePlay = new GamePlay();
-
     setVictoryBar("Horizontal", new int[]{0,1,2,3,0});
+  }
 
+  protected void initialiseGame () {
+    gamePlay = new GamePlay(judgement);
   }
 
   //Method to initialise and set move buttons
@@ -112,6 +115,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerLabel = new JLabel[6][7];
     initialisePlayerLabels();
   }
+
   //Method decides the image of the piece as per current player
   private void setPlayerPiece () {
     if (this.playerMarker.equals("o"))
@@ -130,7 +134,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     int smallest = 0;
     int [] row = {567, 467, 367, 265, 165, 65};
     int [] column = {167, 267, 367, 467, 568, 668, 770};
-    ImageIcon victoryBar = null;
+    ImageIcon victoryBar;
     JLabel victoryLabel;
     if (winDirection != null){
       switch (winDirection){
@@ -162,17 +166,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   public void makeMove (int columnNumber) {
     System.out.println(columnNumber);
-    gamePlay.makeMove(columnNumber);
   }
-
-  public void setCredentials (String playerMarker, int row, Judgement judgement) {
-    this.playerMarker = playerMarker;
-    this.playerRow = row;
-    setPlayerPiece();
-    updateBoard();
-    setVictoryBar(judgement.getWinDirection(), judgement.getWinList());
-  }
-
 
   @Override
   public void deactivateButton(int buttonNumber) {

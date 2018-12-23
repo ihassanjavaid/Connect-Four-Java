@@ -1,29 +1,23 @@
 package Back_End;
 
-
-
 public class Judgement {
-    String winDirection, playerMarker;
-    boolean victoryFlag;
+    private Player player;
+    private String winDirection;
     private int [] winList;
     private int counter;
 
     public Judgement (){
-        victoryFlag = false;
         winDirection = "";
-        playerMarker = "";
         counter = 0;
     }
 
-    public void setVictoryFlag (boolean victoryFlag){
-        this.victoryFlag = victoryFlag;
+    public void setPlayer (Player player) {
+        this.player = player;
     }
+
 
     public void setWinDirection (String winDirection) {
         this.winDirection = winDirection;
-    }
-    public void setPlayerMarker (String playerMarker) {
-        this.playerMarker = playerMarker;
     }
 
     public void initialiseWinList (int num) {
@@ -37,10 +31,12 @@ public class Judgement {
 
     public void flushWinList () {
         initialiseWinList(0);
+        counter = 0;
     }
 
-    public boolean getVictoryFlag () {
-        return this.victoryFlag;
+
+    public Player getPlayer () {
+        return this.player;
     }
 
     public int [] getWinList () {

@@ -35,8 +35,7 @@ public class GameContainer extends JLayeredPane {
       moveToFront(gameScreen);
       gameScreen.setVisible(true);
       welcomeScreen.setVisible(false);
-
-
+      gameScreen.initialiseGame();
   }
 
   protected void showWelcomeScreen () {

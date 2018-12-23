@@ -2,14 +2,15 @@ package Back_End;
 
 public class Judge {
     private GameBoard gameBoard;
+    private Judgement judgement;
 
-    Judgement judgement;
-
-    public Judge (GameBoard gameBoard) {
+    public Judge (GameBoard gameBoard, Judgement judgement) {
         this.gameBoard = gameBoard;
+        this.judgement = judgement;
+
     }
 
-    protected Judgement makeJudgement (String playerMarker, int playerRow, int playerColumn) {
+    protected void makeJudgement (Player player) {
         /*
         The judge will make a judgement which will tell four things, namely:
         1. Has a player won?
@@ -17,16 +18,19 @@ public class Judge {
         3. Which player won?
         4. The list of piece coordinates
          */
-        judgement.setPlayerMarker(playerMarker);
+        judgement.setPlayer(player);
+        boolean victoryFlag;
+        String playerMarker = player.getPlayerMarker();
+        int playerRow = player.getPlayerRow();
+        int playerColumn = player.getPlayerColumn();
 
-        judgement.setVictoryFlag(horizontalJudge(playerMarker, playerRow, playerColumn));
+        victoryFlag = horizontalJudge(playerMarker, playerRow, playerColumn);
 
-        if (!judgement.getVictoryFlag())
-            judgement.setVictoryFlag(verticalJudge(playerMarker, playerRow, playerColumn));
-        if (!judgement.getVictoryFlag())
-            judgement.setVictoryFlag(diagonalJudge(playerMarker, playerRow, playerColumn));
+        if (!victoryFlag)
+            victoryFlag = verticalJudge(playerMarker, playerRow, playerColumn);
+        if (!victoryFlag)
+            diagonalJudge(playerMarker, playerRow, playerColumn);
 
-        return judgement;
     }
 
     private boolean horizontalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){

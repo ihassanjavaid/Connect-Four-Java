@@ -1,6 +1,6 @@
 package Back_End;
 import Front_End.Playable;
-import Front_End.GamePanel;
+
 
 import javax.swing.*;
 
@@ -8,13 +8,15 @@ public class GamePlay implements Playable{
     private Player [] players = new Player[2];
     private GameBoard gameBoard;
     private int turnHolder, playerRow;
-    private Playable gamePanel;
+    private Judge victoryJudge;
 
-    public GamePlay () {
+    public GamePlay (Judgement judgement) {
         gameBoard = new GameBoard();
+        victoryJudge = new Judge(gameBoard, judgement);
         players[0] = new Player(JOptionPane.showInputDialog("Enter Player 1 Name:  "), "o");
         players[1] = new Player(JOptionPane.showInputDialog("Enter Player 2 Name:  "), "x");
         turnHolder = 0;
+
     }
 
     private void swapPlayers () {
@@ -25,24 +27,20 @@ public class GamePlay implements Playable{
     }
 
     @Override
-    public void makeMove(int columnNumber) {
-        playerRow = gameBoard.setPlayerMarker(players[turnHolder].getPlayerMarker(), columnNumber);
-        players[turnHolder].setPlayerCoordinates(playerRow, columnNumber);
-        Judgement judgement = gameBoard.checkForVictory(players[turnHolder].getPlayerMarker(), players[turnHolder].getPlayerRow(), players[turnHolder].getPlayerColumn());
-        setCredentials(players[turnHolder].getPlayerMarker(), playerRow, judgement);
+    public void makeMove(int playerColumn) {
+        playerRow = gameBoard.setPlayerMarker(players[turnHolder].getPlayerMarker(), playerColumn);
+        players[turnHolder].setPlayerCoordinates(playerRow, playerColumn);
+        victoryJudge.makeJudgement(players[turnHolder]);
+
         if (playerRow == 0){
-            deactivateButton(columnNumber);
+            deactivateButton(playerColumn);
         }
         swapPlayers();
     }
 
-    @Override
-    public void setCredentials(String playerMarker, int row, Judgement judgement) {
-        gamePanel.setCredentials(playerMarker, row, judgement);
-    }
 
     @Override
     public void deactivateButton(int buttonNumber) {
-        gamePanel.deactivateButton(buttonNumber);
+        //gamePanel.deactivateButton(buttonNumber);
     }
 }
