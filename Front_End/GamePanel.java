@@ -13,7 +13,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private ImageIcon playerPiece;
   private JLabel [][] playerLabel;
   private JButton [] moveButtons;
-  private String playerMarker = "o";
   private int playerColumn, playerRow;
   private Judgement judgement;
   private Playable gamePlay;
@@ -39,8 +38,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
     //Add components
     add(backButton);
-
-    setVictoryBar("Horizontal", new int[]{0,1,2,3,0});
   }
 
   protected void initialiseGame () {
@@ -72,14 +69,14 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   private void initialisePlayerLabels () {
     //Fixed position of the game board for the player pieces
-    int [] column_pos = {167, 267, 367, 467, 568, 668, 770};
-    int [] row_pos = {567, 467, 367, 265, 165, 65};
+    int [] row_pos = {167, 267, 367, 467, 568, 668, 770};
+    int [] column_pos = {65, 165, 265, 367, 467, 567};
 
     for (int row = 0; row < 6; row++){
       for (int column = 0; column < 7; column++){
         playerLabel[row][column] = new JLabel();
-        playerLabel[row][column].setVisible(false);
-        playerLabel[row][column].setBounds(row_pos[row], column_pos[column], 90, 90);
+        //playerLabel[row][column].setVisible(false);
+        playerLabel[row][column].setBounds(row_pos[column], column_pos[row], 90, 90);
         add(playerLabel[row][column]);
       }
     }
@@ -105,6 +102,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         if (eventHolder == moveButtons[i]){
           playerColumn = i;
           makeMove(i);
+          //setVictoryBar("Horizontal", new int[]{0,1,2,3,5});
         }
       }
     }
@@ -118,7 +116,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   //Method decides the image of the piece as per current player
   private void setPlayerPiece () {
-    if (this.playerMarker.equals("o"))
+    if (judgement.getPlayerMarker().equals("o"))
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
     else
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
@@ -131,23 +129,32 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   }
 
   private void setVictoryBar (String winDirection, int[] winList) {
+    System.out.println("In set victory bar!");
     int smallest = 0;
-    int [] row = {567, 467, 367, 265, 165, 65};
+    int [] row = {65, 165, 265, 367, 467, 567};
     int [] column = {167, 267, 367, 467, 568, 668, 770};
     ImageIcon victoryBar;
     JLabel victoryLabel;
+
+    victoryLabel = new JLabel();
+    victoryLabel.setOpaque(false);
+    add(victoryLabel);
+
     if (winDirection != null){
       switch (winDirection){
         case "Horizontal":
+          System.out.println("In horizontal");
           victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Horizontal cross.png");
           smallest = winList[0];
           for (int i = 1; i < 4; i++){
             if (winList[i] < smallest)
               smallest = winList[i];
           }
-          victoryLabel = new JLabel(victoryBar);
-          victoryLabel.setOpaque(false);
           victoryLabel.setBounds(row[smallest], column[winList[4]], 100, 100);
+          System.out.println("Smallest: " + smallest);
+          victoryLabel.setIcon(victoryBar);
+          victoryLabel.setVisible(true);
+          System.out.println(victoryLabel.getBounds());
           break;
         case "Vertical":
           victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Vertical cross.png");
@@ -166,10 +173,15 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   public void makeMove (int columnNumber) {
     System.out.println(columnNumber);
+    gamePlay.makeMove(columnNumber);
+    if (judgement.getPlayerRow() == 0){
+      moveButtons[columnNumber].setEnabled(false);
+    }
+    playerRow = judgement.getPlayerRow();
+    setPlayerPiece();
+    updateBoard();
+
   }
 
-  @Override
-  public void deactivateButton(int buttonNumber) {
-    moveButtons[buttonNumber].setEnabled(false);
-  }
+
 }

@@ -29,18 +29,10 @@ public class GamePlay implements Playable{
     @Override
     public void makeMove(int playerColumn) {
         playerRow = gameBoard.setPlayerMarker(players[turnHolder].getPlayerMarker(), playerColumn);
+        gameBoard.printGameBoard();
         players[turnHolder].setPlayerCoordinates(playerRow, playerColumn);
         victoryJudge.makeJudgement(players[turnHolder]);
-
-        if (playerRow == 0){
-            deactivateButton(playerColumn);
-        }
         swapPlayers();
     }
 
-
-    @Override
-    public void deactivateButton(int buttonNumber) {
-        //gamePanel.deactivateButton(buttonNumber);
-    }
 }

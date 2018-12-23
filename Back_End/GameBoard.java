@@ -7,6 +7,7 @@ public class GameBoard {
     public GameBoard () {
         this.gameBoard = new String [6][7];
         initialiseGameBoard();
+        printGameBoard();
     }
 
     private void initialiseGameBoard () {
@@ -14,6 +15,15 @@ public class GameBoard {
             for (int column = 0; column < 7; column++) {
                 gameBoard[row][column] = "-";
             }
+        }
+    }
+
+    protected void printGameBoard () {
+        for (int row = 0; row < 6; row++) {
+            for (int column = 0; column < 7; column++) {
+                System.out.print(gameBoard[row][column]);
+            }
+            System.out.println();
         }
     }
 

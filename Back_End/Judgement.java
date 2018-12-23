@@ -22,10 +22,15 @@ public class Judgement {
 
     public void initialiseWinList (int num) {
         winList = new int[num];
+        counter = 0;
     }
 
     public void addToWinList (int num){
-        winList[counter] = num;
+        System.out.println(counter);
+        try {
+            winList[counter] = num;
+        }
+        catch (Exception e){}
         counter++;
     }
 
@@ -33,7 +38,6 @@ public class Judgement {
         initialiseWinList(0);
         counter = 0;
     }
-
 
     public Player getPlayer () {
         return this.player;
@@ -45,5 +49,17 @@ public class Judgement {
 
     public  String getWinDirection () {
         return this.winDirection;
+    }
+
+    public int getCounter () {
+        return this.counter;
+    }
+
+    public int getPlayerRow () {
+        return player.getPlayerRow();
+    }
+
+    public String getPlayerMarker () {
+        return player.getPlayerMarker();
     }
 }
