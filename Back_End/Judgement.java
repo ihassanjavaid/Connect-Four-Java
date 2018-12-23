@@ -27,10 +27,10 @@ public class Judgement {
 
     public void addToWinList (int num){
         System.out.println(counter);
-        try {
+        //try {
             winList[counter] = num;
-        }
-        catch (Exception e){}
+        //}
+        //catch (Exception e){}
         counter++;
     }
 

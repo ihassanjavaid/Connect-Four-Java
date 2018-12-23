@@ -159,7 +159,7 @@ public class Judge {
     }
 
     private boolean diagonalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
-        judgement.initialiseWinList(6);
+        judgement.initialiseWinList(8);
         boolean victoryFlag = false;
 
         int subRow = 0;
@@ -185,6 +185,7 @@ public class Judge {
             if ( subRow >= 0 && subColumn >= 0 ){
 
                 if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
+                    //Storing similar pieces' coordinates
                     judgement.addToWinList(subRow);
                     judgement.addToWinList(subColumn);
                     victoryCounter++;
@@ -227,81 +228,76 @@ public class Judge {
             }
         }
 
-        if ( !victoryFlag ){
-            judgement.flushWinList(); // reset the list, if no one won
-        }
-        else{
+        if ( victoryFlag ){
             judgement.setWinDirection("Left Diagonal");
+
         }
+        else {
+            judgement.flushWinList(); // reset the list, if no one won
 
-        // Checking the other diagonal
-        // North East
-        judgement.initialiseWinList(6);
-        System.out.println(judgement.getCounter());
-        victoryCounter = 0;
-        subRow = PlayerRow;
-        subColumn = PlayerColumn;
-        judgement.addToWinList(subRow);
-        judgement.addToWinList(subColumn);
+            // Checking the other diagonal
+            // North East
+            judgement.initialiseWinList(8);
+            System.out.println(judgement.getCounter());
+            victoryCounter = 0;
+            subRow = PlayerRow;
+            subColumn = PlayerColumn;
+            judgement.addToWinList(subRow);
+            judgement.addToWinList(subColumn);
 
-        while ( subRow >= 0 && subColumn < 7 && !victoryFlag ){
+            while (subRow >= 0 && subColumn < 7 && !victoryFlag) {
 
-            subRow--;
-            subColumn++;
+                subRow--;
+                subColumn++;
 
-            if ( subRow >= 0 && subColumn < 7 ){
+                if (subRow >= 0 && subColumn < 7) {
 
-                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
-                    judgement.addToWinList(subRow);
-                    judgement.addToWinList(subColumn);
-                    victoryCounter++;
+                    if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)) {
+                        judgement.addToWinList(subRow);
+                        judgement.addToWinList(subColumn);
+                        victoryCounter++;
 
-                    if ( victoryCounter == 3){
-                        victoryFlag = true;
+                        if (victoryCounter == 3) {
+                            victoryFlag = true;
+                        }
+                    } else {
+                        break;
                     }
                 }
-
-                else{
-                    break;
-                }
             }
-        }
 
-        // South East
+            // South East
 
-        subRow = PlayerRow;
-        subColumn = PlayerColumn;
+            subRow = PlayerRow;
+            subColumn = PlayerColumn;
 
-        while ( subRow < 6 && subColumn >= 0 && !victoryFlag ){
+            while (subRow < 6 && subColumn >= 0 && !victoryFlag) {
 
-            subRow++;
-            subColumn--;
+                subRow++;
+                subColumn--;
 
-            if ( subRow <= 5 && subColumn >= 0 ){
+                if (subRow <= 5 && subColumn >= 0) {
 
-                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
-                    judgement.addToWinList(subRow);
-                    judgement.addToWinList(subColumn);
-                    victoryCounter++;
+                    if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)) {
+                        judgement.addToWinList(subRow);
+                        judgement.addToWinList(subColumn);
+                        victoryCounter++;
 
-                    if ( victoryCounter == 3){
-                        victoryFlag = true;
+                        if (victoryCounter == 3) {
+                            victoryFlag = true;
+                        }
+                    } else {
+                        break;
                     }
                 }
+            }
 
-                else{
-                    break;
-                }
+            if (!victoryFlag) {
+                judgement.flushWinList();
+            } else {
+                judgement.setWinDirection("Right Diagonal");
             }
         }
-
-        if ( !victoryFlag ){
-            judgement.flushWinList();
-        }
-        else{
-            judgement.setWinDirection("Right Diagonal");
-        }
-
         return victoryFlag;
     }
 

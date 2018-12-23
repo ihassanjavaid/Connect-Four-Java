@@ -102,7 +102,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         if (eventHolder == moveButtons[i]){
           playerColumn = i;
           makeMove(i);
-          //setVictoryBar("Horizontal", new int[]{0,1,2,3,5});
         }
       }
     }
@@ -112,6 +111,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   protected void reset () {
     playerLabel = new JLabel[6][7];
     initialisePlayerLabels();
+  }
+
+  //Method to disable all column buttons
+  private void disableAllBtns () {
+      for (JButton btn:moveButtons){
+        btn.setEnabled(false);
+      }
   }
 
   //Method decides the image of the piece as per current player
@@ -128,11 +134,21 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerLabel[playerRow][playerColumn].setVisible(true);
   }
 
-  private void setVictoryBar (String winDirection, int[] winList) {
-    System.out.println("In set victory bar!");
-    int smallest = 0;
-    int [] row = {65, 165, 265, 367, 467, 567};
-    int [] column = {167, 267, 367, 467, 568, 668, 770};
+  private void setVictoryBar (){
+    String winDirection = judgement.getWinDirection();
+    int [] winList = judgement.getWinList();
+
+    int [] horizontal_x = {210, 310, 410, 510, 510, 510, 510};
+    int [] horizontal_y = {90, 190, 290, 390, 490, 590};
+
+    int [] vertical_x = {205, 305, 405, 505, 605, 705, 805};
+    int [] vertical_y = {60, 160, 262, 262, 262, 262};
+
+    int [] diagonal_x = {200, 300, 400, 500, 500, 500, 500};
+    //int [] diagonal_y = {260, 160, 60, 60, 60, 60};
+    int [] diagonal_y = {60, 160, 260, 260, 260, 260};
+
+
     ImageIcon victoryBar;
     JLabel victoryLabel;
 
@@ -142,29 +158,80 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
     if (winDirection != null){
       switch (winDirection){
-        case "Horizontal":
-          System.out.println("In horizontal");
-          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Horizontal cross.png");
-          smallest = winList[0];
-          for (int i = 1; i < 4; i++){
+        case "Horizontal": {
+          victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Horizontal cross.png");
+          int smallest = winList[0];
+          for (int i = 1; i < 4; i++) {
             if (winList[i] < smallest)
               smallest = winList[i];
           }
-          victoryLabel.setBounds(row[smallest], column[winList[4]], 100, 100);
-          System.out.println("Smallest: " + smallest);
+          victoryLabel.setBounds(horizontal_x[smallest], horizontal_y[winList[4]], 1500, 50);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
-          System.out.println(victoryLabel.getBounds());
+          disableAllBtns();
+          try{
+          Thread.sleep(1500);
+          }
+          catch (Exception e){}
           break;
-        case "Vertical":
-          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Vertical cross.png");
+        }
+        case "Vertical": {
+          int smallest = winList[0];
+          for (int i = 1; i < 4; i++) {
+            if (winList[i] < smallest)
+              smallest = winList[i];
+          }
+          victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Vertical cross.png");
+          victoryLabel.setBounds(vertical_x[winList[4]], vertical_y[smallest], 50, 400);
+          victoryLabel.setIcon(victoryBar);
+          victoryLabel.setVisible(true);
+          disableAllBtns();
           break;
-        case "Left Diagonal":
-          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Left_DC.png");
+        }
+        case "Right Diagonal": {
+          int largest_y = winList[0];
+          int smallest_x = winList[1];
+          int i = 1;
+          while (i < winList.length){
+            if (winList[i] < smallest_x)
+              smallest_x = winList[i];
+            i = i + 2;
+          }
+          i = 0;
+          while (i < winList.length-1){
+            if (winList[i] > largest_y)
+              largest_y = winList[i];
+            i = i + 2;
+          }
+          victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Right_DC.png");
+          victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[largest_y], 400, 400);
+          victoryLabel.setIcon(victoryBar);
+          victoryLabel.setVisible(true);
+          disableAllBtns();
           break;
-        case "Righ Diagonal":
-          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Right_DC.png");
+        }
+        case "Left Diagonal": {
+          int smallest_x = winList[1];
+          int smallest_y = winList[0];
+          int i = 1;
+          while (i < winList.length){
+            if (winList[i] < smallest_x)
+              smallest_x = winList[i];
+            i = i + 2;
+          }
+          i = 0;
+          while (i < winList.length-1){
+            if (winList[i] < smallest_y)
+              smallest_y = winList[i];
+            i = i + 2;
+          }
+          victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Left_DC.png");
+          victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[smallest_y], 400, 400);
+          victoryLabel.setIcon(victoryBar);
+          victoryLabel.setVisible(true);
+          disableAllBtns();
           break;
+        }
       }
 
     }
@@ -180,7 +247,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerRow = judgement.getPlayerRow();
     setPlayerPiece();
     updateBoard();
-
+    repaint();
+    setVictoryBar();
   }
 
 
