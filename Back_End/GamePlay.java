@@ -1,94 +1,48 @@
+package Back_End;
+import Front_End.Playable;
+import Front_End.GamePanel;
+
 import javax.swing.*;
-import java.util.Arrays;
 
-class GamePlay implements Bridge {
-    protected int i;
-    protected Player P1;
-    protected Player P2;
-    Judge judge;
-    public boolean win;
-    GameBoard GB;
-    Player PlayerArray[];
+public class GamePlay implements Playable{
+    private Player [] players = new Player[2];
+    private GameBoard gameBoard;
+    private int turnHolder, playerRow;
+    private Playable gamePanel;
 
-    public GamePlay() {
-        GB = new GameBoard();
-        GB.InitializeGameBoard();
-        Player P1 = new Player(JOptionPane.showInputDialog("Enter Player 1 Name:  "), JOptionPane.showInputDialog("Enter Player 1 Marker:  "));
-        Player P2 = new Player(JOptionPane.showInputDialog("Enter Player 2 Name:  "), JOptionPane.showInputDialog("Enter Player 2 Marker:   "));
-        Judge Judge = new Judge(GB);
-        PlayerArray = new Player[2];
-        PlayerArray[0] = P1;
-        PlayerArray[1] = P2;
-        i = 0;
-        this.judge = new Judge(GB);
-        win = false;
+    public GamePlay () {
+        gameBoard = new GameBoard();
+        players[0] = new Player(JOptionPane.showInputDialog("Enter Player 1 Name:  "), "o");
+        players[1] = new Player(JOptionPane.showInputDialog("Enter Player 2 Name:  "), "x");
+        turnHolder = 0;
     }
 
-    //Finalizes the move
-    public void PlayerChosenColumn(int ColumnButton) {
-        int row = CheckColumnAvailability(ColumnButton);
-        MarkPosition(row, ColumnButton);
-        PlayerArray[i].TurnCounter();
-        PlayerArray[i].PlayerColumn = ColumnButton;
-        PlayerArray[i].PlayerRow = row;
+    private void swapPlayers () {
+        if (turnHolder == 0)
+            turnHolder = 1;
+        else
+            turnHolder = 0;
     }
 
-    // Checks if column is available and returns row for available row
-    public int CheckColumnAvailability(int ColumnButton) { //Check if column is full
-        int row = 5;
-        while (row >=0) {
-            if (GB.getString(row, ColumnButton).equals("-")) {
-                return row;
-            }
-            row--;
-            if (row < 0) {
-               ColumnButton = Integer.parseInt(JOptionPane.showInputDialog("Column is already Full!  \n Choose another Column: "));
-                row = 5;
-                while (row >= 0) {
-                    row--;
-                    if (GB.getString(row, ColumnButton).equals("-")) {
-                        return row;
-                    }
-                }
-            }
+    @Override
+    public void makeMove(int columnNumber) {
+        playerRow = gameBoard.setPlayerMarker(players[turnHolder].getPlayerMarker(), columnNumber);
+        players[turnHolder].setPlayerCoordinates(playerRow, columnNumber);
+        Judgement judgement = gameBoard.checkForVictory(players[turnHolder].getPlayerMarker(), players[turnHolder].getPlayerRow(), players[turnHolder].getPlayerColumn());
+        setCredentials(players[turnHolder].getPlayerMarker(), playerRow, judgement);
+        if (playerRow == 0){
+            deactivateButton(columnNumber);
         }
-        return 0;
+        swapPlayers();
     }
 
-
-    // marks the marker onto the gameboard
-    public void MarkPosition(int row, int ColumnButton) {
-        GB.setString(PlayerArray[i].PlayerMarker, row, ColumnButton);
+    @Override
+    public void setCredentials(String playerMarker, int row, Judgement judgement) {
+        gamePanel.setCredentials(playerMarker, row, judgement);
     }
 
-    // swaps player with each turn
-    public void SwapPlayers() {
-        if (i == 0) {
-            i++;
-        } else
-            i--;
+    @Override
+    public void deactivateButton(int buttonNumber) {
+        gamePanel.deactivateButton(buttonNumber);
     }
-
-    //Checks if anyone won
-    public void CheckWin() {
-        System.out.println(judge.HorizontalJudge(PlayerArray[i].PlayerMarker, PlayerArray[i].PlayerRow, PlayerArray[i].PlayerColumn));
-        System.out.println(judge.VerticalJudge(PlayerArray[i].PlayerMarker, PlayerArray[i].PlayerRow, PlayerArray[i].PlayerColumn));
-        System.out.println(judge.DiagonalJudge(PlayerArray[i].PlayerMarker, PlayerArray[i].PlayerRow, PlayerArray[i].PlayerColumn));
-
-        if (judge.victoryFlag) {
-            win = true;
-            System.out.println(PlayerArray[i].PlayerName + "  IS THE WINNER!");
-
-        }
-    }
-
-    void displayArray() {
-        for (int row = 0; row < 6; row++) {
-            for (int column = 0; column < 7; column++) {
-                System.out.print(GB.getString(row, column) + "     ");
-            }
-            System.out.println();
-        }
-    }
-
 }

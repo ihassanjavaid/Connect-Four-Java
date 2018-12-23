@@ -1,17 +1,20 @@
+package Front_End;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Back_End.GamePlay;
+import Back_End.Judgement;
 
 public class GamePanel extends JPanel implements ActionListener, Playable {
   private GameFrame parent;
   private JButton backButton;
-  private JPanel leftPanel, rightPanel;
   private Image gameImg;
   private ImageIcon playerPiece;
   private JLabel [][] playerLabel;
   private JButton [] moveButtons;
-  private String player = "o";
+  private String playerMarker = "o";
+  private Playable gamePlay;
   private int playerColumn, playerRow;
 
   //No-args constructor
@@ -34,6 +37,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
     //Add components
     add(backButton);
+
+    gamePlay = new GamePlay();
+
+    setVictoryBar("Horizontal", new int[]{0,1,2,3,0});
 
   }
 
@@ -88,32 +95,26 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
     if (eventHolder == backButton){
       parent.showWelcomeScreen();
-      playerLabel = new JLabel[6][7];
-      initialisePlayerLabels();
+      reset();
     }
     else{
       for (int i = 0; i < 7; i++) {
         if (eventHolder == moveButtons[i]){
+          playerColumn = i;
           makeMove(i);
         }
       }
     }
   }
 
-  public void makeMove (int columnNumber) {
-    System.out.println(columnNumber);
+  //Method to reset game screen
+  protected void reset () {
+    playerLabel = new JLabel[6][7];
+    initialisePlayerLabels();
   }
-
-  public void setCredentials (String player, int row) {
-    this.player = player;
-    this.playerRow = row;
-    setPlayerPiece();
-    updateBoard();
-  }
-
   //Method decides the image of the piece as per current player
   private void setPlayerPiece () {
-    if (this.player.equals("o"))
+    if (this.playerMarker.equals("o"))
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
     else
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
@@ -125,4 +126,56 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerLabel[playerRow][playerColumn].setVisible(true);
   }
 
+  private void setVictoryBar (String winDirection, int[] winList) {
+    int smallest = 0;
+    int [] row = {567, 467, 367, 265, 165, 65};
+    int [] column = {167, 267, 367, 467, 568, 668, 770};
+    ImageIcon victoryBar = null;
+    JLabel victoryLabel;
+    if (winDirection != null){
+      switch (winDirection){
+        case "Horizontal":
+          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Horizontal cross.png");
+          smallest = winList[0];
+          for (int i = 1; i < 4; i++){
+            if (winList[i] < smallest)
+              smallest = winList[i];
+          }
+          victoryLabel = new JLabel(victoryBar);
+          victoryLabel.setOpaque(false);
+          victoryLabel.setBounds(row[smallest], column[winList[4]], 100, 100);
+          break;
+        case "Vertical":
+          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Vertical cross.png");
+          break;
+        case "Left Diagonal":
+          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Left_DC.png");
+          break;
+        case "Righ Diagonal":
+          victoryBar = new ImageIcon("\"D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Right_DC.png");
+          break;
+      }
+
+    }
+
+  }
+
+  public void makeMove (int columnNumber) {
+    System.out.println(columnNumber);
+    gamePlay.makeMove(columnNumber);
+  }
+
+  public void setCredentials (String playerMarker, int row, Judgement judgement) {
+    this.playerMarker = playerMarker;
+    this.playerRow = row;
+    setPlayerPiece();
+    updateBoard();
+    setVictoryBar(judgement.getWinDirection(), judgement.getWinList());
+  }
+
+
+  @Override
+  public void deactivateButton(int buttonNumber) {
+    moveButtons[buttonNumber].setEnabled(false);
+  }
 }

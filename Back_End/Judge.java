@@ -1,26 +1,42 @@
-import java.util.ArrayList;
-import java.util.List;
+package Back_End;
 
-public class Judge extends GameBoard{
-   protected List winList;
-   public String winDirection;
-   public boolean victoryFlag = false;
-   public GameBoard Gameboard;
+public class Judge {
+    private GameBoard gameBoard;
 
+    Judgement judgement;
 
-    public Judge(GameBoard GB){
-        winList = new ArrayList();
-        winDirection = " ";
-        this.Gameboard = GB;
+    public Judge (GameBoard gameBoard) {
+        this.gameBoard = gameBoard;
     }
 
+    protected Judgement makeJudgement (String playerMarker, int playerRow, int playerColumn) {
+        /*
+        The judge will make a judgement which will tell four things, namely:
+        1. Has a player won?
+        2. In what direction did the player win?
+        3. Which player won?
+        4. The list of piece coordinates
+         */
+        judgement.setPlayerMarker(playerMarker);
 
+        judgement.setVictoryFlag(horizontalJudge(playerMarker, playerRow, playerColumn));
 
-    public boolean HorizontalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
+        if (!judgement.getVictoryFlag())
+            judgement.setVictoryFlag(verticalJudge(playerMarker, playerRow, playerColumn));
+        if (!judgement.getVictoryFlag())
+            judgement.setVictoryFlag(diagonalJudge(playerMarker, playerRow, playerColumn));
 
+        return judgement;
+    }
+
+    private boolean horizontalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
+        judgement.initialiseWinList(5);
+        boolean victoryFlag = false;
         int column = PlayerColumn;
 
-        winList.add(column); // Store the player's latest move's column number
+        //winList.add(column);
+        judgement.addToWinList(column);// Store the player's latest move's column number
+
         int victoryCounter = 0;
 
         // Checking West from the point of player's latest move
@@ -31,39 +47,12 @@ public class Judge extends GameBoard{
 
             if ( column >=0 ){
 
-                if ( Gameboard.getString(PlayerRow,column).equals(PlayerMarker)){
-                    winList.add(column); // If there is a same piece on the left of the current piece, store its coordinates
+                if (gameBoard.getPlayerMarker(PlayerRow,column).equals(PlayerMarker)){
+                    judgement.addToWinList(column); // If there is a same piece on the left of the current piece, store its coordinates
                     victoryCounter++;
 
                     if ( victoryCounter == 3 ){
-                        winList.add(PlayerRow);   // Store the row in which the player has won
-                        victoryFlag = true;;
-
-                    }
-                }
-
-                else{
-                    break;
-                }
-            }
-        }
-
-        // Checking East from the point of player's latest move
-
-        column = PlayerColumn;
-
-        while ( column < 7 && !victoryFlag ){
-
-            column++;
-
-            if ( column < 7 ){
-
-                if ( Gameboard.getString(PlayerRow,column).equals(PlayerMarker)){
-                    winList.add(column); // If there is a same piece on the left of the current piece, store its coordinates
-                    victoryCounter++;
-
-                    if ( victoryCounter == 3 ){
-                        winList.add(PlayerRow);   // Store the row in which the player has won
+                        judgement.addToWinList(PlayerRow);   // Store the row in which the player has won
                         victoryFlag = true;
                     }
                 }
@@ -75,19 +64,53 @@ public class Judge extends GameBoard{
         }
 
         if ( !victoryFlag ){
-            winList.clear();
+            judgement.flushWinList();
+            judgement.initialiseWinList(5);
         }
+
+        // Checking East from the point of player's latest move
+
+        column = PlayerColumn;
+        judgement.addToWinList(column);
+
+        while ( column < 7 && !victoryFlag ){
+
+            column++;
+
+            if ( column < 7 ){
+
+                if (gameBoard.getPlayerMarker(PlayerRow,column).equals(PlayerMarker)){
+                    judgement.addToWinList(column); // If there is a same piece on the left of the current piece, store its coordinates
+                    victoryCounter++;
+
+                    if ( victoryCounter == 3 ){
+                        judgement.addToWinList(PlayerRow);   // Store the row in which the player has won
+                        victoryFlag = true;
+                    }
+                }
+
+                else{
+                    break;
+                }
+            }
+        }
+
+        if ( !victoryFlag ){
+            judgement.flushWinList();
+        }
+        else
+            judgement.setWinDirection("Horizontal");
 
         return victoryFlag;
     }
 
-
-    public boolean VerticalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
-        boolean verticalFlag = false;
+    private boolean verticalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
+        judgement.initialiseWinList(5);
+        boolean victoryFlag = false;
         int column = PlayerColumn;
         int row = PlayerRow;
 
-        winList.add(row);  //Store the player's latest move's row number
+        judgement.addToWinList(row);  //Store the player's latest move's row number
         int victoryCounter = 0;
 
         // Checking South from the point of player's latest move
@@ -98,16 +121,14 @@ public class Judge extends GameBoard{
 
             if ( row < 6 ){
 
-                if ( Gameboard.getString(row,column).equals(PlayerMarker)){
-                    winList.add(row); // If there is a same piece on the left of the current piece, store its coordinates
+                if (gameBoard.getPlayerMarker(PlayerRow,column).equals(PlayerMarker)){
+                    judgement.addToWinList(row); // If there is a same piece on the left of the current piece, store its coordinates
                     victoryCounter++;
 
                     if ( victoryCounter == 3 ){
-                        winList.add(PlayerColumn);   // If there is a same piece below the current piece, store its coordinates
+                        judgement.addToWinList(PlayerColumn);   // If there is a same piece below the current piece, store its coordinates
                         victoryFlag = true;
-                        verticalFlag = true;
-                        System.out.println("Vert");
-                        break;
+                        judgement.setWinDirection("Vertical");
                     }
                 }
 
@@ -118,25 +139,30 @@ public class Judge extends GameBoard{
         }
 
         if ( !victoryFlag ){
-            winList.clear();
+            judgement.flushWinList();  // in python: winList = []  #If no one won, reset the win list
         }
 
-        return verticalFlag;
+        return victoryFlag;
     }
 
-    public boolean DiagonalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
-        victoryFlag = false;
-        int subRow = PlayerRow;
-        int subColumn = PlayerColumn;
+    private boolean diagonalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
+        judgement.initialiseWinList(6);
+        boolean victoryFlag = false;
+
+        int subRow = 0;
+        int subColumn = 0;
         int victoryCounter = 0;
 
         // Checking first Diagonal
         // North West
 
+        subRow = PlayerRow;
+        subColumn = PlayerColumn;
+
         // Store the player's latest move's coordinates
 
-        winList.add(subRow);
-        winList.add(subColumn);
+        judgement.addToWinList(subColumn);
+        judgement.addToWinList(subColumn);
 
         while ( subRow >= 0 && subColumn >= 0 && !victoryFlag ){
 
@@ -145,45 +171,40 @@ public class Judge extends GameBoard{
 
             if ( subRow >= 0 && subColumn >= 0 ){
 
-                if ( Gameboard.getString(subRow,subColumn).equals(PlayerMarker)){
-                    winList.add(subRow);
-                    winList.add(subColumn);
+                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
+                    judgement.addToWinList(subRow);
+                    judgement.addToWinList(subColumn);
                     victoryCounter++;
 
                     if ( victoryCounter == 3){
                         victoryFlag = true;
-                        System.out.println("NW");
-
                     }
                 }
-
                 else{
                     break;
                 }
             }
         }
 
-        // South west
+        // South East
 
         subRow = PlayerRow;
         subColumn = PlayerColumn;
-        victoryCounter = 0;
 
-        while ( subRow < 6 && subColumn < 7 && subColumn >3&& !victoryFlag ){
+        while ( subRow < 6 && subColumn < 7 && !victoryFlag ){
 
             subRow++;
-            subColumn--;
+            subColumn++;
 
             if ( subRow < 6 && subColumn < 7 ){
 
-                if ( Gameboard.getString(subRow,subColumn).equals(PlayerMarker)){
-                    winList.add(subRow);
-                    winList.add(subColumn);
+                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
+                    judgement.addToWinList(subRow);
+                    judgement.addToWinList(subColumn);
                     victoryCounter++;
 
                     if ( victoryCounter == 3){
                         victoryFlag = true;
-                        System.out.println(("SW"));
                     }
                 }
 
@@ -194,20 +215,20 @@ public class Judge extends GameBoard{
         }
 
         if ( !victoryFlag ){
-            winList.clear(); // reset the list, if no one won
+            judgement.flushWinList(); // reset the list, if no one won
         }
         else{
-            winDirection = "Left Diagonal";
+            judgement.setWinDirection("Left Diagonal");
         }
 
         // Checking the other diagonal
         // North East
-
+        judgement.initialiseWinList(6);
         victoryCounter = 0;
         subRow = PlayerRow;
         subColumn = PlayerColumn;
-        winList.add(subRow);
-        winList.add(subColumn);
+        judgement.addToWinList(subRow);
+        judgement.addToWinList(subColumn);
 
         while ( subRow >= 0 && subColumn < 7 && !victoryFlag ){
 
@@ -216,15 +237,13 @@ public class Judge extends GameBoard{
 
             if ( subRow >= 0 && subColumn < 7 ){
 
-                if ( Gameboard.getString(subRow,subColumn).equals(PlayerMarker)){
-                    winList.add(subRow);
-                    winList.add(subColumn);
+                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
+                    judgement.addToWinList(subRow);
+                    judgement.addToWinList(subColumn);
                     victoryCounter++;
 
                     if ( victoryCounter == 3){
-                        winDirection = "Right Diagonal";
                         victoryFlag = true;
-                        System.out.println("NE");
                     }
                 }
 
@@ -238,24 +257,21 @@ public class Judge extends GameBoard{
 
         subRow = PlayerRow;
         subColumn = PlayerColumn;
-        victoryCounter = 0;
 
         while ( subRow < 6 && subColumn >= 0 && !victoryFlag ){
 
             subRow++;
-            subColumn++;
+            subColumn--;
 
             if ( subRow <= 5 && subColumn >= 0 ){
 
-                if (Gameboard.getString(subRow,subColumn).equals(PlayerMarker)){
-                    winList.add(subRow);
-                    winList.add(subColumn);
+                if (gameBoard.getPlayerMarker(subRow, subColumn).equals(PlayerMarker)){
+                    judgement.addToWinList(subRow);
+                    judgement.addToWinList(subColumn);
                     victoryCounter++;
 
                     if ( victoryCounter == 3){
-                        winDirection = "Right Diagonal";
                         victoryFlag = true;
-                        System.out.println("SE");
                     }
                 }
 
@@ -266,14 +282,16 @@ public class Judge extends GameBoard{
         }
 
         if ( !victoryFlag ){
-            winList.clear();
+            judgement.flushWinList();
+        }
+        else{
+            judgement.setWinDirection("Right Diagonal");
         }
 
         return victoryFlag;
     }
 
+
+
+
 }
-
-
-
-
