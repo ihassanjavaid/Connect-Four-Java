@@ -1,12 +1,10 @@
-
+package Front_End;
 import javax.swing.*;
 import java.awt.*;
 
 public class GameFrame {
   //Class attributes
   private JFrame gameFrame;
-  //private WelcomePanel welcomeScreen;
-  //private GamePanel gameScreen;
   private GameContainer game;
 
   //No-args constructor
@@ -15,8 +13,9 @@ public class GameFrame {
     gameFrame = new JFrame("Connect-4");
 
     //Set frame properties
-    gameFrame.setPreferredSize(new Dimension(1000, 1000));
+    gameFrame.setPreferredSize(new Dimension(1005, 845));
     gameFrame.setLocation(500, 100);
+    gameFrame.setResizable(false);
     gameFrame.setLayout(new BorderLayout());
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -35,6 +34,10 @@ public class GameFrame {
 
   protected void showGameScreen () {
     game.showGameScreen();
+  }
+
+  protected void showWelcomeScreen () {
+    game.showWelcomeScreen();
   }
 
 

@@ -1,32 +1,47 @@
+
+package Back_End;
+
 public class GameBoard {
-    public String[][] GameBoard;
+    private String [][] gameBoard;
 
 
-    public GameBoard(){
-        this.GameBoard = new String[6][7];
+    public GameBoard () {
+        this.gameBoard = new String [6][7];
+        initialiseGameBoard();
+        printGameBoard();
     }
 
-    protected void InitializeGameBoard() {
+    private void initialiseGameBoard () {
         for (int row = 0; row < 6; row++) {
             for (int column = 0; column < 7; column++) {
-                GameBoard[row][column] = "-";
+                gameBoard[row][column] = "-";
             }
         }
     }
-// Getting the Player marker from the relevant location on the gameboard
-    public String getString(int i, int j){
-        String s = GameBoard[i][j];
-        return s;
+
+    protected void printGameBoard () {
+        for (int row = 0; row < 6; row++) {
+            for (int column = 0; column < 7; column++) {
+                System.out.print(gameBoard[row][column]);
+            }
+            System.out.println();
+        }
     }
-// Setting the Player marker into the relevant location on the gameboard
-    public void setString(String s, int i, int j){
-        GameBoard[i][j] = s;
+
+    protected int setPlayerMarker (String playerMarker,int playerColumn) {
+        int row = 5;
+        while (row >= 0 && !gameBoard[row][playerColumn].equals("-")){
+            row--;
+        }
+        if (row >= 0)
+            this.gameBoard[row][playerColumn] = playerMarker;
+
+        return row;
     }
 
-
-
+    protected String getPlayerMarker (int row, int column) {
+        return this.gameBoard[row][column];
+    }
 
 
 }
-
-
