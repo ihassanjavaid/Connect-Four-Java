@@ -36,5 +36,3 @@ public class GamePlay implements Playable{
     }
 
 }
-
-

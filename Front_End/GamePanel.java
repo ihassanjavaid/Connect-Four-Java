@@ -134,6 +134,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerLabel[playerRow][playerColumn].setVisible(true);
   }
 
+  //Method to connect four similar pieces
   private void setVictoryBar (){
     String winDirection = judgement.getWinDirection();
     int [] winList = judgement.getWinList();
@@ -147,7 +148,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     int [] diagonal_x = {200, 300, 400, 500, 500, 500, 500};
     //int [] diagonal_y = {260, 160, 60, 60, 60, 60};
     int [] diagonal_y = {60, 160, 260, 260, 260, 260};
-
 
     ImageIcon victoryBar;
     JLabel victoryLabel;
