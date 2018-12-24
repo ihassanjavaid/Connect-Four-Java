@@ -1,8 +1,13 @@
 package Front_End;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+
 import Back_End.GamePlay;
 import Back_End.Judgement;
 
@@ -16,6 +21,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private int playerColumn, playerRow;
   private Judgement judgement;
   private Playable gamePlay;
+  private Clip clip;
 
   //No-args constructor
   public GamePanel () {
@@ -34,10 +40,23 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
 
+    //Set files paths
+    String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Prelude_No_8.wav";
+    try {
+      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+      clip = AudioSystem.getClip();
+      clip.open(audioInputStream);
+      clip.start();
+    }
+    catch (Exception e) {
+
+    }
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
     //Add components
     add(backButton);
+
+
   }
 
   protected void initialiseGame () {
@@ -94,6 +113,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     Object eventHolder = event.getSource();
 
     if (eventHolder == backButton){
+      clip.stop();
       parent.showWelcomeScreen();
       reset();
     }
@@ -139,6 +159,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     String winDirection = judgement.getWinDirection();
     int [] winList = judgement.getWinList();
 
+    //Fixed locations for placing the victory bar
     int [] horizontal_x = {210, 310, 410, 510, 510, 510, 510};
     int [] horizontal_y = {90, 190, 290, 390, 490, 590};
 
@@ -169,10 +190,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
           disableAllBtns();
-          try{
-          Thread.sleep(1500);
-          }
-          catch (Exception e){}
           break;
         }
         case "Vertical": {
@@ -233,7 +250,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           break;
         }
       }
-
     }
 
   }
@@ -250,6 +266,5 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     repaint();
     setVictoryBar();
   }
-
 
 }
