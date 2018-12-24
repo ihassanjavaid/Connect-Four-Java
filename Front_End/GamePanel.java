@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-
 import Back_End.GamePlay;
 import Back_End.Judgement;
 
@@ -41,26 +40,74 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     backButton.addActionListener(this);
 
     //Set files paths
-    String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Prelude_No_8.wav";
-    try {
-      AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
-      clip = AudioSystem.getClip();
-      clip.open(audioInputStream);
-      clip.start();
-    }
-    catch (Exception e) {
-
-    }
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
     //Add components
     add(backButton);
 
-
+    //Play background music
+    playMusic("Background music");
   }
 
   protected void initialiseGame () {
     gamePlay = new GamePlay(judgement);
+  }
+
+
+
+  public void setParent (GameFrame parent) {
+    this.parent = parent;
+  }
+
+  public void paintComponent (Graphics g) {
+    super.paintComponent(g);
+    g.drawImage(gameImg, 0, 0, this);
+  }
+
+  public void actionPerformed (ActionEvent event) {
+    Object eventHolder = event.getSource();
+
+    if (eventHolder == backButton){
+      int infoHolder = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Warning", JOptionPane.YES_NO_OPTION);
+      if (infoHolder == JOptionPane.YES_OPTION) {
+        clip.stop();
+        parent.showWelcomeScreen();
+        reset();
+      }
+    }
+    else{
+      for (int i = 0; i < 7; i++) {
+        if (eventHolder == moveButtons[i]){
+          playMusic("Piece move");
+          playerColumn = i;
+          makeMove(i);
+        }
+      }
+    }
+  }
+
+  public String getPlayerMarker () {
+    return judgement.getPlayerMarker();
+  }
+
+  //Method connecting back end to front end
+  public void makeMove (int columnNumber) {
+    System.out.println(columnNumber);
+    gamePlay.makeMove(columnNumber);
+    if (judgement.getPlayerRow() == 0){
+      moveButtons[columnNumber].setEnabled(false);
+    }
+    playerRow = judgement.getPlayerRow();
+    setPlayerPiece();
+    updateBoard();
+    repaint();
+    setVictoryBar();
+  }
+
+  //Method to reset game screen
+  protected void reset () {
+    playerLabel = new JLabel[6][7];
+    initialisePlayerLabels();
   }
 
   //Method to initialise and set move buttons
@@ -94,43 +141,11 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     for (int row = 0; row < 6; row++){
       for (int column = 0; column < 7; column++){
         playerLabel[row][column] = new JLabel();
-        //playerLabel[row][column].setVisible(false);
+        playerLabel[row][column].setVisible(false);
         playerLabel[row][column].setBounds(row_pos[column], column_pos[row], 90, 90);
         add(playerLabel[row][column]);
       }
     }
-  }
-
-  protected void setParent (GameFrame parent) {
-    this.parent = parent;
-  }
-
-  public void paintComponent (Graphics g) {
-    g.drawImage(gameImg, 0, 0, this);
-  }
-
-  public void actionPerformed (ActionEvent event) {
-    Object eventHolder = event.getSource();
-
-    if (eventHolder == backButton){
-      clip.stop();
-      parent.showWelcomeScreen();
-      reset();
-    }
-    else{
-      for (int i = 0; i < 7; i++) {
-        if (eventHolder == moveButtons[i]){
-          playerColumn = i;
-          makeMove(i);
-        }
-      }
-    }
-  }
-
-  //Method to reset game screen
-  protected void reset () {
-    playerLabel = new JLabel[6][7];
-    initialisePlayerLabels();
   }
 
   //Method to disable all column buttons
@@ -156,6 +171,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   //Method to connect four similar pieces
   private void setVictoryBar (){
+    boolean victoryFlag = false;
     String winDirection = judgement.getWinDirection();
     int [] winList = judgement.getWinList();
 
@@ -177,7 +193,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     victoryLabel.setOpaque(false);
     add(victoryLabel);
 
-    if (winDirection != null){
+    if (!winDirection.equals("")){
+      victoryFlag = true;
       switch (winDirection){
         case "Horizontal": {
           victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Horizontal cross.png");
@@ -189,7 +206,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           victoryLabel.setBounds(horizontal_x[smallest], horizontal_y[winList[4]], 1500, 50);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
-          disableAllBtns();
           break;
         }
         case "Vertical": {
@@ -202,7 +218,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           victoryLabel.setBounds(vertical_x[winList[4]], vertical_y[smallest], 50, 400);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
-          disableAllBtns();
           break;
         }
         case "Right Diagonal": {
@@ -224,7 +239,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[largest_y], 400, 400);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
-          disableAllBtns();
           break;
         }
         case "Left Diagonal": {
@@ -246,25 +260,66 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[smallest_y], 400, 400);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
-          disableAllBtns();
           break;
         }
       }
     }
-
+    if (victoryFlag) {
+      Timer timer = new Timer(3000, this);
+      disableAllBtns();
+      clip.stop();
+      playMusic("Win informer");
+      timer.start();
+      //sleep(3000);
+      //parent.showWinnerScreen();
+    }
   }
 
-  public void makeMove (int columnNumber) {
-    System.out.println(columnNumber);
-    gamePlay.makeMove(columnNumber);
-    if (judgement.getPlayerRow() == 0){
-      moveButtons[columnNumber].setEnabled(false);
+  private void sleep (int time) {
+    try {
+      Thread.sleep(time);
     }
-    playerRow = judgement.getPlayerRow();
-    setPlayerPiece();
-    updateBoard();
-    repaint();
-    setVictoryBar();
+    catch (Exception e) {}
+  }
+
+  private void playMusic (String type) {
+    switch (type) {
+      case "Background music": {
+        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\In_game.wav";
+        try {
+          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+          clip = AudioSystem.getClip();
+          clip.open(audioInputStream);
+          clip.start();
+        } catch (Exception e) {
+        }
+        break;
+      }
+
+      case "Piece move": {
+        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Move.wav";
+        try {
+          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+          Clip clip1 = AudioSystem.getClip();
+          clip1.open(audioInputStream);
+          clip1.start();
+        } catch (Exception e) {
+        }
+        break;
+      }
+
+      case "Win informer": {
+        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Win_Sound.wav";
+        try {
+          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+          Clip clip1 = AudioSystem.getClip();
+          clip1.open(audioInputStream);
+          clip1.start();
+        } catch (Exception e) {
+        }
+        break;
+      }
+    }
   }
 
 }

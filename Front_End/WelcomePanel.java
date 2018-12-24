@@ -10,7 +10,6 @@ import java.io.File;
 
 public class WelcomePanel extends JPanel implements ActionListener{
   //Class attributes
-  private JPanel mainPanel;
   private JButton playButton, closeButton;
   private GameFrame parent;
   private Image backgroundImage;
@@ -18,7 +17,7 @@ public class WelcomePanel extends JPanel implements ActionListener{
 
   //No-args constructor
   public WelcomePanel () {
-    //Set panel propersties
+    //Set panel properties
     setBounds(0, 0, 1005, 845);
     setLayout(null);
 

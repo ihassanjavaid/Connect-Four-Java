@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class GameFrame {
   //Class attributes
-  private JFrame gameFrame;
+  public JFrame gameFrame;
   private GameContainer game;
 
   //No-args constructor
@@ -30,6 +30,8 @@ public class GameFrame {
     gameFrame.pack();
     gameFrame.setVisible(true);
 
+
+
   }
 
   protected void showGameScreen () {
@@ -40,6 +42,7 @@ public class GameFrame {
     game.showWelcomeScreen();
   }
 
+  public void showWinnerScreen () {game.showWinnerScreen();}
 
   public static void main (String [] args) {
     new GameFrame();

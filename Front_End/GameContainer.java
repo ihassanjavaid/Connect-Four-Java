@@ -5,6 +5,7 @@ import java.awt.*;
 public class GameContainer extends JLayeredPane {
   private WelcomePanel welcomeScreen;
   private GamePanel gameScreen;
+  private WinnerScreen winnerScreen;
   private GameFrame parent;
 
   public GameContainer () {
@@ -46,15 +47,28 @@ public class GameContainer extends JLayeredPane {
   }
 
   protected void showWinnerScreen () {
-      //moveToFront(winnerScreen);
-      //winnerScreen.setVisible(true);
+      winnerScreen = new WinnerScreen(gameScreen.getPlayerMarker());
+      add(winnerScreen, new Integer(0));
+
+      moveToBack(gameScreen);
+      moveToFront(winnerScreen);
+      winnerScreen.setVisible(true);
+      gameScreen.setVisible(false);
+      super.repaint();
+      sleep(8000);
       //Play music
-      //moveToFront(welcomeScreen);
-      //winnerScreen.setVisible(false);
-      //gameScreen.reset();
+      moveToFront(welcomeScreen);
+      welcomeScreen.setVisible(true);
+      winnerScreen.setVisible(false);
+      gameScreen.reset();
 
   }
 
-
+    private void sleep (int time) {
+        try {
+            Thread.sleep(time);
+        }
+        catch (Exception e) {}
+    }
 
 }
