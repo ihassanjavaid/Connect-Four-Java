@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.swing.border.Border;
 import java.io.File;
 
 public class WelcomePanel extends JPanel implements ActionListener{
@@ -26,8 +25,6 @@ public class WelcomePanel extends JPanel implements ActionListener{
     ImageIcon play = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Play button.png");
     ImageIcon exit = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Exit button.png");
     ImageIcon leaderBoard = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Leaderboard_icon.png");
-
-    Border raisedbevel = BorderFactory.createRaisedBevelBorder();
 
     playButton = new JButton(play);
     playButton.setOpaque(false);

@@ -1,13 +1,9 @@
 package Front_End;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.concurrent.TimeUnit;
+
 
 import Back_End.GamePlay;
 import Back_End.Judgement;
@@ -22,15 +18,15 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private JLabel turnInformer;
   private JButton [] moveButtons;
   private int playerColumn, playerRow, turnTracker;
-  private long startTime;
   private Judgement judgement;
   private Playable gamePlay;
-  private Clip clip;
+  private Music music;
 
   //No-args constructor
   public GamePanel () {
-    startTime = System.currentTimeMillis();
     judgement = new Judgement();
+    music = new Music();
+    judgement.setStartTime(System.currentTimeMillis());
     turnTracker = 0;
     moveButtons = new JButton[7]; //Seven game column
     playerLabel = new JLabel[6][7]; //Forth two total places on the board
@@ -45,7 +41,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     ImageIcon turnBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Player bar.png");
     turnInformer = new JLabel(turnBar);
 
-    backButton = new JButton("Back");
+    backButton = new JButton("Exit");
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
 
@@ -68,7 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     add(fillLabel);
 
     //Play background music
-    playMusic("Background music");
+    music.playGameBackgroundMusic();
   }
 
   protected void initialiseGame () {
@@ -91,7 +87,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     if (eventHolder == backButton){
       int infoHolder = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Warning", JOptionPane.YES_NO_OPTION);
       if (infoHolder == JOptionPane.YES_OPTION) {
-        clip.stop();
+        music.stopGameBackgroundMusic();
         parent.showWelcomeScreen();
         reset();
       }
@@ -99,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     else{
       for (int i = 0; i < 7; i++) {
         if (eventHolder == moveButtons[i]){
-          playMusic("Piece move");
+          music.playMoveSoundEffect();
           playerColumn = i;
           makeMove(i);
         }
@@ -302,86 +298,23 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
     if (victoryFlag) {
       disableAllBtns();
-      clip.stop();
-      playMusic("Win informer");
-      playMusic("Victory");
+      music.stopGameBackgroundMusic();
+      music.playWinSoundEffect();
+      music.playVictoryMusic();
       showWinnerMessage();
-      //JOptionPane.showMessageDialog(this, setWinnerMessage());
+      music.stopVictoryMusic();
       parent.showWelcomeScreen();
 
     }
   }
 
-  private void playMusic (String type) {
-    switch (type) {
-      case "Background music": {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\In_game.wav";
-        try {
-          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
-          clip = AudioSystem.getClip();
-          clip.open(audioInputStream);
-          clip.start();
-        } catch (Exception e) {}
-        break;
-      }
-
-      case "Piece move": {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Move.wav";
-        try {
-          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
-          Clip clip1 = AudioSystem.getClip();
-          clip1.open(audioInputStream);
-          clip1.start();
-        } catch (Exception e) {}
-        break;
-      }
-
-      case "Win informer": {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Win_Sound.wav";
-        try {
-          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
-          Clip clip1 = AudioSystem.getClip();
-          clip1.open(audioInputStream);
-          clip1.start();
-        } catch (Exception e) {}
-        break;
-      }
-
-      case "Victory": {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\W!nner.wav";
-        try {
-          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
-          Clip clip1 = AudioSystem.getClip();
-          clip1.open(audioInputStream);
-          clip1.start();
-        } catch (Exception e) {}
-      }
-
-    }
-  }
-
   private void showWinnerMessage () {
-    long endTime = System.currentTimeMillis();
-    long totalGameTime = endTime - startTime;
-
     String winnerMessage;
     Player player = judgement.getPlayer();
 
     winnerMessage = "Congratulations " + player.getPlayerName() + "!\nYou have " +
               "successfully connected four pieces\n";
-    winnerMessage += getGameTime(totalGameTime);
+    winnerMessage += judgement.getGameTime();
     JOptionPane.showMessageDialog(this, winnerMessage);
-  }
-
-  private String getGameTime (long totalTime) {
-    String timeElasped;
-    long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(totalTime);
-    int minutes = (int)(totalSeconds/ 60);
-    int seconds = (int)(totalSeconds % 60);
-    if (minutes > 0)
-      timeElasped = "Game time: " + minutes + " Minutes " + seconds + " seconds";
-    else
-      timeElasped = "Game time: " + seconds + " seconds";
-    return timeElasped;
   }
 }

@@ -29,9 +29,13 @@ public class Judge {
         if (!victoryFlag) {
             victoryFlag = verticalJudge(playerMarker, playerRow, playerColumn);
         }
+
         if (!victoryFlag) {
             diagonalJudge(playerMarker, playerRow, playerColumn);
         }
+
+        if (victoryFlag)
+            judgement.markGameTime();
 
     }
 
