@@ -4,6 +4,8 @@ Connect Four Game, to be made through Java, as the semester project of Object Or
 # To be added
 - [ ] Filing
 - Contents of the file include: Name of the players, winner of the game, game time
+- [ ] Leaderboard class
+- The class that'll provide the object for writing to the class filing
 
 
 ## The mighty team includes
