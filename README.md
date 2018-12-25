@@ -2,8 +2,7 @@
 Connect Four Game, to be made through Java, as the semester project of Object Oriented Programming.
 
 # To be added
-1. Filing\n
-Contents of the file include: Name of the players, winner of the game, game time
+- [] Filing\ Contents of the file include: Name of the players, winner of the game, game time
 
 
 ## The mighty team includes
