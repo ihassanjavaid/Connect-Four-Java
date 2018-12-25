@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         setLayout(null);
 
         //Initialise components
-        ImageIcon turnBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Player bar.png");
+        ImageIcon turnBar = new ImageIcon("Assests\\Player bar.png");
         turnInformer = new JLabel(turnBar);
 
         backButton = new JButton("Exit");
@@ -46,17 +46,17 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         backButton.addActionListener(this);
 
         //Set background image
-        ImageIcon backGroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png");
+        ImageIcon backGroundImage = new ImageIcon("Assests/GameBG.png");
         JLabel backgroundLabel = new JLabel(backGroundImage);
         backgroundLabel.setBounds(0, 0, 1005, 845);
 
         //Set fill image
-        ImageIcon fillImage = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\BG_Fill.png");
+        ImageIcon fillImage = new ImageIcon("Assests\\BG_Fill.png");
         JLabel fillLabel = new JLabel(fillImage);
         fillLabel.setBounds(0, 770, 1000, 60);
 
         //Set files paths
-        gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
+        gameImg = new ImageIcon("Assests/GameBG.png").getImage();
 
         //Add components
         add(turnInformer);
@@ -128,7 +128,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         ImageIcon [] buttonImg = new ImageIcon [7];
         String loc;
         for (int i = 0; i < 7; i++) {
-            loc = "D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Column Button-" + (i+1) + ".png";
+            loc = "Assests/Column Button-" + (i+1) + ".png";
             buttonImg[i] = new ImageIcon(loc);
         }
 
@@ -189,10 +189,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     //Method decides the image of the piece as per current player
     private void setPlayerPiece () {
         if (judgement.getPlayerMarker().equals("o")) {
-            this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
+            this.playerPiece = new ImageIcon("Assests/Player 1.png");
         }
         else {
-            this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
+            this.playerPiece = new ImageIcon("Assests/Player 2.png");
         }
     }
 
@@ -229,7 +229,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
             victoryFlag = true;
             switch (winDirection){
                 case "Horizontal": {
-                    victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Horizontal cross.png");
+                    victoryBar = new ImageIcon("Assests\\Horizontal cross.png");
                     int smallest = winList[0];
                     for (int i = 1; i < 4; i++) {
                         if (winList[i] < smallest)
@@ -246,7 +246,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
                         if (winList[i] < smallest)
                             smallest = winList[i];
                     }
-                    victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Vertical cross.png");
+                    victoryBar = new ImageIcon("Assests\\Vertical cross.png");
                     victoryLabel.setBounds(vertical_x[winList[4]], vertical_y[smallest], 50, 400);
                     victoryLabel.setIcon(victoryBar);
                     victoryLabel.setVisible(true);
@@ -267,7 +267,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
                             smallest_y = winList[i];
                         i = i + 2;
                     }
-                    victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Right_DC.png");
+                    victoryBar = new ImageIcon("Assests\\Right_DC.png");
                     victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[smallest_y], 400, 400);
                     victoryLabel.setIcon(victoryBar);
                     victoryLabel.setVisible(true);
@@ -288,7 +288,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
                             smallest_y = winList[i];
                         i = i + 2;
                     }
-                    victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Left_DC.png");
+                    victoryBar = new ImageIcon("Assests\\Left_DC.png");
                     victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[smallest_y], 400, 400);
                     victoryLabel.setIcon(victoryBar);
                     victoryLabel.setVisible(true);
