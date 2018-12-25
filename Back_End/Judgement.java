@@ -8,7 +8,7 @@ public class Judgement {
     private int [] winList;
     private int counter;
     private long startTime, gameTime;
-
+    private Leaderboard leaderBoard;
 
     public Judgement (){
         winDirection = "";
@@ -21,6 +21,10 @@ public class Judgement {
 
     public void setStartTime (long startTime) {
         this.startTime = startTime;
+    }
+
+    public void setLeaderBoard (Leaderboard leaderBoard) {
+        this.leaderBoard = leaderBoard;
     }
 
     public void markGameTime () {
@@ -67,8 +71,6 @@ public class Judgement {
         return player.getPlayerMarker();
     }
 
-
-
     public String getGameTime () {
         String timeElasped;
         long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(this.gameTime);
@@ -79,6 +81,10 @@ public class Judgement {
         else
             timeElasped = "Game time: " + seconds + " seconds";
         return timeElasped;
+    }
+
+    public String getLeaderBoard () {
+        return leaderBoard.toString();
     }
 
 }

@@ -3,6 +3,7 @@ package Back_End;
 public class Judge {
     private GameBoard gameBoard;
     private Judgement judgement;
+    private Leaderboard leaderboard;
 
     public Judge (GameBoard gameBoard, Judgement judgement) {
         this.gameBoard = gameBoard;
@@ -34,9 +35,20 @@ public class Judge {
             diagonalJudge(playerMarker, playerRow, playerColumn);
         }
 
-        if (victoryFlag)
+        if (victoryFlag) {
             judgement.markGameTime();
+            // Make/update leader board
+            leaderboard.setWinner(player.getPlayerName());
 
+            // Update leader board file
+        }
+
+        leaderboard.setGameTime(judgement.getGameTime());
+
+    }
+
+    public void setLeaderboard (Leaderboard leaderboard) {
+        this.leaderboard = leaderboard;
     }
 
     private boolean horizontalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){

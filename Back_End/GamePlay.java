@@ -9,12 +9,16 @@ public class GamePlay implements Playable{
     private GameBoard gameBoard;
     private int turnHolder, playerRow;
     private Judge victoryJudge;
+    private Leaderboard leaderBoard;
 
     public GamePlay (Judgement judgement) {
         gameBoard = new GameBoard();
         victoryJudge = new Judge(gameBoard, judgement);
         players[0] = new Player(JOptionPane.showInputDialog("Enter Player 1 Name:  "), "o");
         players[1] = new Player(JOptionPane.showInputDialog("Enter Player 2 Name:  "), "x");
+        leaderBoard = new Leaderboard(players[0].getPlayerName(), players[1].getPlayerName());
+        judgement.setLeaderBoard(leaderBoard);
+        victoryJudge.setLeaderboard(leaderBoard);
         turnHolder = 0;
 
     }
