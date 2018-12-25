@@ -29,7 +29,6 @@ public class GamePlay implements Playable{
     @Override
     public void makeMove(int playerColumn) {
         playerRow = gameBoard.setPlayerMarker(players[turnHolder].getPlayerMarker(), playerColumn);
-        gameBoard.printGameBoard();
         players[turnHolder].setPlayerCoordinates(playerRow, playerColumn);
         victoryJudge.makeJudgement(players[turnHolder]);
         swapPlayers();

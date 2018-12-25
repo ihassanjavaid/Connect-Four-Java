@@ -7,7 +7,6 @@ public class GameBoard {
     public GameBoard () {
         this.gameBoard = new String [6][7];
         initialiseGameBoard();
-        printGameBoard();
     }
 
     private void initialiseGameBoard () {

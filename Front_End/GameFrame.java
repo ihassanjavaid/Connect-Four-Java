@@ -42,10 +42,23 @@ public class GameFrame {
     game.showWelcomeScreen();
   }
 
-  public void showWinnerScreen () {game.showWinnerScreen();}
+  public void showWinnerScreen () {
+    game.showWinnerScreen();
+  }
+
+  public void returnToMain () {
+    game.returnToMain();
+  }
 
   public static void main (String [] args) {
     new GameFrame();
+  }
+
+  private void sleep (int time) {
+    try {
+      Thread.sleep(time);
+    }
+    catch (Exception e) {}
   }
 
 }

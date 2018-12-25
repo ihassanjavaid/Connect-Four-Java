@@ -39,11 +39,22 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
 
+    //Set background image
+    ImageIcon backGroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png");
+    JLabel backgroundLabel = new JLabel(backGroundImage);
+    backgroundLabel.setBounds(0, 0, 1005, 845);
+
+    //Set fill image
+    ImageIcon fillImage = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\BG_Fill.png");
+    JLabel fillLabel = new JLabel(fillImage);
+    fillLabel.setBounds(0, 770, 1000, 60);
+
     //Set files paths
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
     //Add components
     add(backButton);
+    add(fillLabel);
 
     //Play background music
     playMusic("Background music");
@@ -53,15 +64,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     gamePlay = new GamePlay(judgement);
   }
 
-
-
   public void setParent (GameFrame parent) {
     this.parent = parent;
   }
 
   public void paintComponent (Graphics g) {
     super.paintComponent(g);
-    g.drawImage(gameImg, 0, 0, this);
+    g.drawImage(gameImg, 0, 0, 1000, 776, this);
   }
 
   public void actionPerformed (ActionEvent event) {
@@ -100,7 +109,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     playerRow = judgement.getPlayerRow();
     setPlayerPiece();
     updateBoard();
-    repaint();
     setVictoryBar();
   }
 
@@ -112,7 +120,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   //Method to initialise and set move buttons
   private void setMoveButtons () {
-    int x_pos = 175;
+    int x_pos = 155;
     ImageIcon [] buttonImg = new ImageIcon [7];
     String loc;
     for (int i = 0; i < 7; i++) {
@@ -135,7 +143,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   private void initialisePlayerLabels () {
     //Fixed position of the game board for the player pieces
-    int [] row_pos = {167, 267, 367, 467, 568, 668, 770};
+    int [] row_pos = {160, 257, 357, 457, 556, 653, 750};
     int [] column_pos = {65, 165, 265, 367, 467, 567};
 
     for (int row = 0; row < 6; row++){
@@ -183,14 +191,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     int [] vertical_y = {60, 160, 262, 262, 262, 262};
 
     int [] diagonal_x = {200, 300, 400, 500, 500, 500, 500};
-    //int [] diagonal_y = {260, 160, 60, 60, 60, 60};
     int [] diagonal_y = {60, 160, 260, 260, 260, 260};
 
     ImageIcon victoryBar;
     JLabel victoryLabel;
 
     victoryLabel = new JLabel();
-    victoryLabel.setOpaque(false);
+
     add(victoryLabel);
 
     if (!winDirection.equals("")){
@@ -221,8 +228,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           break;
         }
         case "Right Diagonal": {
-          int largest_y = winList[0];
           int smallest_x = winList[1];
+          int smallest_y = winList[0];
           int i = 1;
           while (i < winList.length){
             if (winList[i] < smallest_x)
@@ -231,12 +238,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           }
           i = 0;
           while (i < winList.length-1){
-            if (winList[i] > largest_y)
-              largest_y = winList[i];
+            if (winList[i] < smallest_y)
+              smallest_y = winList[i];
             i = i + 2;
           }
           victoryBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\Connect-Four-Java\\Assests\\Right_DC.png");
-          victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[largest_y], 400, 400);
+          victoryLabel.setBounds(diagonal_x[smallest_x], diagonal_y[smallest_y], 400, 400);
           victoryLabel.setIcon(victoryBar);
           victoryLabel.setVisible(true);
           break;
@@ -270,8 +277,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       clip.stop();
       playMusic("Win informer");
       timer.start();
-      //sleep(3000);
-      //parent.showWinnerScreen();
+      parent.showWinnerScreen();
+
     }
   }
 

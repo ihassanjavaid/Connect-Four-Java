@@ -15,11 +15,9 @@ public class GameContainer extends JLayeredPane {
 
     //Initialise components
     welcomeScreen = new WelcomePanel();
-    //gameScreen = new GamePanel();
 
     //Add components
     add(welcomeScreen, new Integer(1));
-    //add(gameScreen, new Integer(0));
   }
 
   protected void setParent (GameFrame parent) {
@@ -48,27 +46,22 @@ public class GameContainer extends JLayeredPane {
 
   protected void showWinnerScreen () {
       winnerScreen = new WinnerScreen(gameScreen.getPlayerMarker());
+
+      winnerScreen.setParent(parent);
       add(winnerScreen, new Integer(0));
 
       moveToBack(gameScreen);
       moveToFront(winnerScreen);
       winnerScreen.setVisible(true);
       gameScreen.setVisible(false);
-      super.repaint();
-      sleep(8000);
-      //Play music
+  }
+
+  protected void returnToMain () {
       moveToFront(welcomeScreen);
       welcomeScreen.setVisible(true);
       winnerScreen.setVisible(false);
       gameScreen.reset();
-
   }
 
-    private void sleep (int time) {
-        try {
-            Thread.sleep(time);
-        }
-        catch (Exception e) {}
-    }
 
 }
