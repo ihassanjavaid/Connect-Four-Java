@@ -10,6 +10,6 @@ Connect Four Game, to be made through Java, as the semester project of Object Or
 
 ## The mighty team includes
 ### 1. [Mahnoor Fatima Saad](https://github.com/mfc2496).
-### 2. Muhammad Hasan Malik
-### 3. Muhammad Osama Saleem
-### 4. Muhammad Talha Bin Mansoor
+### 2. [Muhammad Hasan Malik](https://github.com/ihassanjavaid).
+### 3. [Muhammad Osama Saleem](https://github.com/IAMOSAMA111).
+### 4. [Muhammad Talha Bin Mansoor](https://github.com/Elvin-Arrow).
