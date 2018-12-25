@@ -21,10 +21,10 @@ public class WelcomePanel extends JPanel implements ActionListener{
     setLayout(null);
 
     //Initialise components
-    backgroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Main Screen.png").getImage();
-    ImageIcon play = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Play button.png");
-    ImageIcon exit = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Exit button.png");
-    ImageIcon leaderBoard = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Leaderboard_icon.png");
+    backgroundImage = new ImageIcon("Assests/Main Screen.png").getImage();
+    ImageIcon play = new ImageIcon("Assests/Play button.png");
+    ImageIcon exit = new ImageIcon("Assests/Exit button.png");
+    ImageIcon leaderBoard = new ImageIcon("Assests\\Leaderboard_icon.png");
 
     playButton = new JButton(play);
     playButton.setOpaque(false);
