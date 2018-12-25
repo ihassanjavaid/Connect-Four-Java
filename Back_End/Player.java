@@ -27,7 +27,7 @@ public class Player {
         return this.playerColumn;
     }
 
-    public String toString () {
-        return "Player name: " + playerName + "\nPlayer marker: " + playerMarker;
+    public String getPlayerName () {
+        return this.playerName;
     }
 }

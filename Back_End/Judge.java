@@ -28,15 +28,9 @@ public class Judge {
 
         if (!victoryFlag) {
             victoryFlag = verticalJudge(playerMarker, playerRow, playerColumn);
-            if (victoryFlag)
-                System.out.println("Vertical victory");
         }
-        else
-            System.out.println("Horizontal victory!");
         if (!victoryFlag) {
-            victoryFlag =diagonalJudge(playerMarker, playerRow, playerColumn);
-            if(victoryFlag)
-                System.out.println("Diagonal Judge");
+            diagonalJudge(playerMarker, playerRow, playerColumn);
         }
 
     }
@@ -298,8 +292,5 @@ public class Judge {
         }
         return victoryFlag;
     }
-
-
-
 
 }

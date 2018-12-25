@@ -5,7 +5,6 @@ import java.awt.*;
 public class GameContainer extends JLayeredPane {
   private WelcomePanel welcomeScreen;
   private GamePanel gameScreen;
-  private WinnerScreen winnerScreen;
   private GameFrame parent;
 
   public GameContainer () {
@@ -43,25 +42,5 @@ public class GameContainer extends JLayeredPane {
     gameScreen.setVisible(false);
     welcomeScreen.setVisible(true);
   }
-
-  protected void showWinnerScreen () {
-      winnerScreen = new WinnerScreen(gameScreen.getPlayerMarker());
-
-      winnerScreen.setParent(parent);
-      add(winnerScreen, new Integer(0));
-
-      moveToBack(gameScreen);
-      moveToFront(winnerScreen);
-      winnerScreen.setVisible(true);
-      gameScreen.setVisible(false);
-  }
-
-  protected void returnToMain () {
-      moveToFront(welcomeScreen);
-      welcomeScreen.setVisible(true);
-      winnerScreen.setVisible(false);
-      gameScreen.reset();
-  }
-
 
 }

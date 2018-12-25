@@ -7,8 +7,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
+
 import Back_End.GamePlay;
 import Back_End.Judgement;
+import Back_End.Player;
 
 public class GamePanel extends JPanel implements ActionListener, Playable {
   private GameFrame parent;
@@ -16,15 +19,19 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
   private Image gameImg;
   private ImageIcon playerPiece;
   private JLabel [][] playerLabel;
+  private JLabel turnInformer;
   private JButton [] moveButtons;
-  private int playerColumn, playerRow;
+  private int playerColumn, playerRow, turnTracker;
+  private long startTime;
   private Judgement judgement;
   private Playable gamePlay;
   private Clip clip;
 
   //No-args constructor
   public GamePanel () {
+    startTime = System.currentTimeMillis();
     judgement = new Judgement();
+    turnTracker = 0;
     moveButtons = new JButton[7]; //Seven game column
     playerLabel = new JLabel[6][7]; //Forth two total places on the board
     setMoveButtons();
@@ -35,6 +42,9 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     setLayout(null);
 
     //Initialise components
+    ImageIcon turnBar = new ImageIcon("D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Player bar.png");
+    turnInformer = new JLabel(turnBar);
+
     backButton = new JButton("Back");
     backButton.setBounds(900, 785, 100, 25);
     backButton.addActionListener(this);
@@ -53,6 +63,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     gameImg = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/GameBG.png").getImage();
 
     //Add components
+    add(turnInformer);
     add(backButton);
     add(fillLabel);
 
@@ -62,6 +73,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   protected void initialiseGame () {
     gamePlay = new GamePlay(judgement);
+    setTurnBar();
   }
 
   public void setParent (GameFrame parent) {
@@ -95,19 +107,15 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
   }
 
-  public String getPlayerMarker () {
-    return judgement.getPlayerMarker();
-  }
-
   //Method connecting back end to front end
   public void makeMove (int columnNumber) {
-    System.out.println(columnNumber);
     gamePlay.makeMove(columnNumber);
     if (judgement.getPlayerRow() == 0){
       moveButtons[columnNumber].setEnabled(false);
     }
     playerRow = judgement.getPlayerRow();
     setPlayerPiece();
+    setTurnBar();
     updateBoard();
     setVictoryBar();
   }
@@ -120,7 +128,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
   //Method to initialise and set move buttons
   private void setMoveButtons () {
-    int x_pos = 155;
+    int x_pos = 158;
     ImageIcon [] buttonImg = new ImageIcon [7];
     String loc;
     for (int i = 0; i < 7; i++) {
@@ -156,6 +164,17 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
   }
 
+  private void setTurnBar () {
+    if (turnTracker == 0) {
+      turnInformer.setBounds(20, 120, 100, 25);
+      swapPlayer();
+    }
+    else {
+      turnInformer.setBounds(880, 120, 100, 25);
+      swapPlayer();
+    }
+  }
+
   //Method to disable all column buttons
   private void disableAllBtns () {
       for (JButton btn:moveButtons){
@@ -163,12 +182,22 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       }
   }
 
+  //Method to swap players
+  private void swapPlayer () {
+    if (turnTracker == 0)
+      turnTracker = 1;
+    else
+      turnTracker = 0;
+  }
+
   //Method decides the image of the piece as per current player
   private void setPlayerPiece () {
-    if (judgement.getPlayerMarker().equals("o"))
+    if (judgement.getPlayerMarker().equals("o")) {
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 1.png");
-    else
+    }
+    else {
       this.playerPiece = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Player 2.png");
+    }
   }
 
   //This method simple label image and displays the label
@@ -187,7 +216,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     int [] horizontal_x = {210, 310, 410, 510, 510, 510, 510};
     int [] horizontal_y = {90, 190, 290, 390, 490, 590};
 
-    int [] vertical_x = {205, 305, 405, 505, 605, 705, 805};
+    int [] vertical_x = {196, 294, 394, 494, 594, 692, 790};
     int [] vertical_y = {60, 160, 262, 262, 262, 262};
 
     int [] diagonal_x = {200, 300, 400, 500, 500, 500, 500};
@@ -272,21 +301,15 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
       }
     }
     if (victoryFlag) {
-      Timer timer = new Timer(3000, this);
       disableAllBtns();
       clip.stop();
       playMusic("Win informer");
-      timer.start();
-      parent.showWinnerScreen();
+      playMusic("Victory");
+      showWinnerMessage();
+      //JOptionPane.showMessageDialog(this, setWinnerMessage());
+      parent.showWelcomeScreen();
 
     }
-  }
-
-  private void sleep (int time) {
-    try {
-      Thread.sleep(time);
-    }
-    catch (Exception e) {}
   }
 
   private void playMusic (String type) {
@@ -298,8 +321,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           clip = AudioSystem.getClip();
           clip.open(audioInputStream);
           clip.start();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         break;
       }
 
@@ -310,8 +332,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           Clip clip1 = AudioSystem.getClip();
           clip1.open(audioInputStream);
           clip1.start();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         break;
       }
 
@@ -322,11 +343,45 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
           Clip clip1 = AudioSystem.getClip();
           clip1.open(audioInputStream);
           clip1.start();
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
         break;
       }
+
+      case "Victory": {
+        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\W!nner.wav";
+        try {
+          AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+          Clip clip1 = AudioSystem.getClip();
+          clip1.open(audioInputStream);
+          clip1.start();
+        } catch (Exception e) {}
+      }
+
     }
   }
 
+  private void showWinnerMessage () {
+    long endTime = System.currentTimeMillis();
+    long totalGameTime = endTime - startTime;
+
+    String winnerMessage;
+    Player player = judgement.getPlayer();
+
+    winnerMessage = "Congratulations " + player.getPlayerName() + "!\nYou have " +
+              "successfully connected four pieces\n";
+    winnerMessage += getGameTime(totalGameTime);
+    JOptionPane.showMessageDialog(this, winnerMessage);
+  }
+
+  private String getGameTime (long totalTime) {
+    String timeElasped;
+    long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(totalTime);
+    int minutes = (int)(totalSeconds/ 60);
+    int seconds = (int)(totalSeconds % 60);
+    if (minutes > 0)
+      timeElasped = "Game time: " + minutes + " Minutes " + seconds + " seconds";
+    else
+      timeElasped = "Game time: " + seconds + " seconds";
+    return timeElasped;
+  }
 }
