@@ -9,7 +9,7 @@ public class Music {
     private Clip gameBackgroundMusic, victoryMusic;
 
     public void playGameBackgroundMusic() {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\In_game.wav";
+        String soundFile = "Assests\\In_game.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             gameBackgroundMusic = AudioSystem.getClip();
@@ -24,7 +24,7 @@ public class Music {
     }
 
     public void playMoveSoundEffect() {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Move.wav";
+        String soundFile = "Assests\\Move.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             Clip moveSound = AudioSystem.getClip();
@@ -35,7 +35,7 @@ public class Music {
     }
 
     public void playVictoryMusic() {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\W!nner.wav";
+        String soundFile = "Assests\\W!nner.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             victoryMusic = AudioSystem.getClip();
@@ -50,7 +50,7 @@ public class Music {
     }
 
     public void playWinSoundEffect () {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\src\\Assests\\Win_Sound.wav";
+        String soundFile = "Assests\\Win_Sound.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             Clip winSound = AudioSystem.getClip();
