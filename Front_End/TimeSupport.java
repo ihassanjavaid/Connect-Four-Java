@@ -9,11 +9,11 @@ import java.util.Date;
 
 public class TimeSupport implements ActionListener{
 
-    JLabel systemTime;
-    JLabel gameTime;
+    private JLabel systemTime;
+    private JLabel gameTime;
 
-    int timeSec;
-    int timeMin;
+    private int timeSec;
+    private int timeMin;
 
     Timer timer;
 
@@ -80,4 +80,15 @@ public class TimeSupport implements ActionListener{
         return timeMinString +":" +timeSecString;
     }
 
+    public Timer getTimer() {
+        return this.timer;
+    }
+
+    public JLabel getSystemTime() {
+        return systemTime;
+    }
+
+    public JLabel getGameTime() {
+        return gameTime;
+    }
 }

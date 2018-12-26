@@ -69,8 +69,8 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
 
         // Initialize and add clock and game time
         timeSupport = new TimeSupport();
-        this.add(timeSupport.systemTime).setBounds( 220, 0, 150, 50);
-        this.add(timeSupport.gameTime).setBounds(680, 0, 150, 50);
+        this.add(timeSupport.getSystemTime()).setBounds( 220, 0, 150, 50);
+        this.add(timeSupport.getGameTime()).setBounds(680, 0, 150, 50);
 
         //Play background music
         music.playGameBackgroundMusic();
@@ -335,9 +335,14 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         String winnerMessage;
         Player player = judgement.getPlayer();
 
+        //stop the timer
+        timeSupport.getTimer().stop();
+
         winnerMessage = "Congratulations " + player.getPlayerName() + "!\nYou have " +
                 "successfully connected four pieces\n";
-        winnerMessage += judgement.getGameTime();
+
+        //getting game time through time support class
+        winnerMessage += "Game time: " + ( timeSupport.getGameTime().getText() );
         JOptionPane.showMessageDialog(this, winnerMessage);
     }
 
