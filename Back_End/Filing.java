@@ -121,7 +121,29 @@ public class Filing {
         }
 
         else{
-            return "No Record found!";
+            String lastRecord = "";
+
+            Scanner fileReader = null;
+            try {
+                fileReader = new Scanner(new File("gamefile.txt"));
+            } catch (FileNotFoundException fnfe) {
+                // catch exception
+            }
+
+            try {
+                for (int j = 0; j < 4; j++) {
+                    if (fileReader.hasNextLine()) {
+                        lastRecord += fileReader.nextLine();
+                        lastRecord += "\n";
+                    }
+                    else
+                        return "No record found!";
+                }
+            }
+            catch (NullPointerException npe){
+                // catch exception
+            }
+            return lastRecord;
         }
     }
 
