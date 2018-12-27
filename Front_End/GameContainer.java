@@ -14,11 +14,10 @@ public class GameContainer extends JLayeredPane {
 
     //Initialise components
     welcomeScreen = new WelcomePanel();
-    //gameScreen = new GamePanel();
 
     //Add components
     add(welcomeScreen, new Integer(1));
-    //add(gameScreen, new Integer(0));
+    Music.playWelcomeScreenMusic();
   }
 
   protected void setParent (GameFrame parent) {
@@ -27,15 +26,16 @@ public class GameContainer extends JLayeredPane {
   }
 
   protected void showGameScreen () {
-      gameScreen = new GamePanel();
-      gameScreen.setParent(this.parent);
-      add(gameScreen, new Integer(0));
+    Music.stopWelcomeScreenMusic();
+    gameScreen = new GamePanel();
+    gameScreen.setParent(this.parent);
+    add(gameScreen, new Integer(0));
 
-      moveToBack(welcomeScreen);
-      moveToFront(gameScreen);
-      gameScreen.setVisible(true);
-      welcomeScreen.setVisible(false);
-      gameScreen.initialiseGame();
+    moveToBack(welcomeScreen);
+    moveToFront(gameScreen);
+    gameScreen.setVisible(true);
+    welcomeScreen.setVisible(false);
+    gameScreen.initialiseGame();
   }
 
   protected void showWelcomeScreen () {
@@ -43,18 +43,7 @@ public class GameContainer extends JLayeredPane {
     moveToFront(welcomeScreen);
     gameScreen.setVisible(false);
     welcomeScreen.setVisible(true);
+    Music.playWelcomeScreenMusic();
   }
-
-  protected void showWinnerScreen () {
-      //moveToFront(winnerScreen);
-      //winnerScreen.setVisible(true);
-      //Play music
-      //moveToFront(welcomeScreen);
-      //winnerScreen.setVisible(false);
-      //gameScreen.reset();
-
-  }
-
-
 
 }

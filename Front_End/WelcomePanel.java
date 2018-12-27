@@ -3,25 +3,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 
 public class WelcomePanel extends JPanel implements ActionListener{
   //Class attributes
-  private JPanel mainPanel;
-  private JButton playButton, closeButton;
+  private JButton playButton, closeButton, leaderBoardButton;
   private GameFrame parent;
   private Image backgroundImage;
-  private ImageIcon play, exit;
 
   //No-args constructor
   public WelcomePanel () {
-    //Set panel propersties
+    //Set panel properties
     setBounds(0, 0, 1005, 845);
     setLayout(null);
 
     //Initialise components
-    backgroundImage = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Main Screen.png").getImage();
-    play = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Play button.png");
-    exit = new ImageIcon("D:/University/Object Oriented Programming/Semester Project/Connect-Four-Java/Assests/Exit button.png");
+    backgroundImage = new ImageIcon("Assests/Main Screen.png").getImage();
+    ImageIcon play = new ImageIcon("Assests/Play button.png");
+    ImageIcon exit = new ImageIcon("Assests/Exit button.png");
+    ImageIcon leaderBoard = new ImageIcon("Assests\\Leaderboard_icon.png");
 
     playButton = new JButton(play);
     playButton.setOpaque(false);
@@ -37,9 +40,17 @@ public class WelcomePanel extends JPanel implements ActionListener{
     closeButton.setFocusPainted(false);
     closeButton.addActionListener(this);
 
+    leaderBoardButton = new JButton(leaderBoard);
+    leaderBoardButton.setOpaque(false);
+    leaderBoardButton.setBorderPainted(false);
+    leaderBoardButton.setContentAreaFilled(false);
+    leaderBoardButton.setFocusPainted(false);
+    leaderBoardButton.addActionListener(this);
+
     //Add components
     add(playButton).setBounds(370, 380, 290, 130);
     add(closeButton).setBounds(370, 510, 290, 130);
+    add(leaderBoardButton).setBounds(900, 0, 100, 100);
 
   }
 
@@ -55,10 +66,14 @@ public class WelcomePanel extends JPanel implements ActionListener{
     Object eventHolder = event.getSource();
 
     if (eventHolder == closeButton) {
+      Music.stopWelcomeScreenMusic();
       System.exit(0);
     }
     else if (eventHolder == playButton) {
         parent.showGameScreen();
+    }
+    else if (eventHolder == leaderBoardButton) {
+      System.out.println("Hi!");
     }
 
   }

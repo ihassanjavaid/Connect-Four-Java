@@ -3,11 +3,11 @@ package Back_End;
 public class Judge {
     private GameBoard gameBoard;
     private Judgement judgement;
+    private Leaderboard leaderboard;
 
     public Judge (GameBoard gameBoard, Judgement judgement) {
         this.gameBoard = gameBoard;
         this.judgement = judgement;
-
     }
 
     protected void makeJudgement (Player player) {
@@ -18,6 +18,7 @@ public class Judge {
         3. Which player won?
         4. The list of piece coordinates
          */
+        judgement.countTurn();
         judgement.setPlayer(player);
         boolean victoryFlag;
         String playerMarker = player.getPlayerMarker();
@@ -28,18 +29,26 @@ public class Judge {
 
         if (!victoryFlag) {
             victoryFlag = verticalJudge(playerMarker, playerRow, playerColumn);
-            if (victoryFlag)
-                System.out.println("Vertical victory");
         }
-        else
-            System.out.println("Horizontal victory!");
+
         if (!victoryFlag) {
-            victoryFlag =diagonalJudge(playerMarker, playerRow, playerColumn);
-            if(victoryFlag)
-                System.out.println("Diagonal Judge");
+            diagonalJudge(playerMarker, playerRow, playerColumn);
         }
 
+        if (victoryFlag) {
+            judgement.markGameTime();
+            // Make/update leader board
+            leaderboard.setWinner(player.getPlayerName());
 
+            // Update leader board file
+        }
+
+        leaderboard.setGameTime(judgement.getGameTime());
+
+    }
+
+    public void setLeaderboard (Leaderboard leaderboard) {
+        this.leaderboard = leaderboard;
     }
 
     private boolean horizontalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
@@ -118,7 +127,6 @@ public class Judge {
     private boolean verticalJudge(String PlayerMarker, int PlayerRow, int PlayerColumn){
         judgement.initialiseWinList(5);
         boolean victoryFlag = false;
-        int column = PlayerColumn;
         int row = PlayerRow;
 
         judgement.addToWinList(row);  //Store the player's latest move's row number
@@ -132,7 +140,7 @@ public class Judge {
 
             if ( row < 6 ){
 
-                if (gameBoard.getPlayerMarker(row, column).equals(PlayerMarker)){
+                if (gameBoard.getPlayerMarker(row, PlayerColumn).equals(PlayerMarker)){
 
 
                     judgement.addToWinList(row); // If there is a same piece on the left of the current piece, store its coordinates
@@ -152,7 +160,7 @@ public class Judge {
         }
 
         if ( !victoryFlag ){
-            judgement.flushWinList();  // in python: winList = []  #If no one won, reset the win list
+            judgement.flushWinList();  // If no one won, reset the win list
         }
 
         return victoryFlag;
@@ -174,7 +182,7 @@ public class Judge {
 
         // Store the player's latest move's coordinates
 
-        judgement.addToWinList(subColumn);
+        judgement.addToWinList(subRow);
         judgement.addToWinList(subColumn);
 
         while ( subRow >= 0 && subColumn >= 0 && !victoryFlag ){
@@ -237,8 +245,8 @@ public class Judge {
 
             // Checking the other diagonal
             // North East
+
             judgement.initialiseWinList(8);
-            System.out.println(judgement.getCounter());
             victoryCounter = 0;
             subRow = PlayerRow;
             subColumn = PlayerColumn;
