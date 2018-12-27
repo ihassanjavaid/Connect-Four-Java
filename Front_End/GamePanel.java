@@ -19,15 +19,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private int playerColumn, playerRow, turnTracker;
     private Judgement judgement;
     private Playable gamePlay;
-    private Music music;
-
     private TimeSupport timeSupport;
     private Filing files;
 
     //No-args constructor
     public GamePanel () throws Exception {
         judgement = new Judgement();
-        music = new Music();
         judgement.setStartTime(System.currentTimeMillis());
         turnTracker = 0;
         moveButtons = new JButton[7]; //Seven game column
@@ -71,14 +68,14 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         this.add(timeSupport.getGameTime()).setBounds(680, 0, 150, 50);
 
         //Play background music
-        music.playGameBackgroundMusic();
+        Music.playGameBackgroundMusic();
 
         //Initialize Filing
         files = new Filing();
 
     }
 
-    protected void initialiseGame () throws IOException {
+    protected void initialiseGame () {
         gamePlay = new GamePlay(judgement);
         setTurnBar();
     }
@@ -98,7 +95,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         if (eventHolder == backButton){
             int infoHolder = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Warning", JOptionPane.YES_NO_OPTION);
             if (infoHolder == JOptionPane.YES_OPTION) {
-                music.stopGameBackgroundMusic();
+                Music.stopGameBackgroundMusic();
                 parent.showWelcomeScreen();
                 reset();
             }
@@ -106,7 +103,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         else{
             for (int i = 0; i < 7; i++) {
                 if (eventHolder == moveButtons[i]){
-                    music.playMoveSoundEffect();
+                    Music.playMoveSoundEffect();
                     playerColumn = i;
                     try {
                         makeMove(i);
@@ -120,16 +117,26 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
 
     //Method connecting back end to front end
-    public void makeMove (int columnNumber) throws Exception {
+    public void makeMove (int columnNumber) {
         gamePlay.makeMove(columnNumber);
-        if (judgement.getPlayerRow() == 0){
-            moveButtons[columnNumber].setEnabled(false);
+        if (!judgement.getGameDraw()) {
+            if (judgement.getPlayerRow() == 0){
+                moveButtons[columnNumber].setEnabled(false);
+            }
+            playerRow = judgement.getPlayerRow();
+            setPlayerPiece();
+            setTurnBar();
+            updateBoard();
+            setVictoryBar();
         }
-        playerRow = judgement.getPlayerRow();
-        setPlayerPiece();
-        setTurnBar();
-        updateBoard();
-        setVictoryBar();
+        else {
+            Music.stopGameBackgroundMusic();
+            Music.playDrawMusic();
+            JOptionPane.showMessageDialog(this, "Game draw!", "Draw", JOptionPane.INFORMATION_MESSAGE);
+            Music.stopDrawMusic();
+            parent.showWelcomeScreen();
+        }
+
     }
 
     //Method to reset game screen
@@ -219,7 +226,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
 
     //Method to connect four similar pieces
-    private void setVictoryBar () throws Exception {
+    private void setVictoryBar (){
         boolean victoryFlag = false;
         String winDirection = judgement.getWinDirection();
         int [] winList = judgement.getWinList();
@@ -314,16 +321,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         }
         if (victoryFlag) {
             disableAllBtns();
-            music.stopGameBackgroundMusic();
-            music.playWinSoundEffect();
-            music.playVictoryMusic();
+            Music.stopGameBackgroundMusic();
+            Music.playWinSoundEffect();
+            Music.playVictoryMusic();
             showWinnerMessage();
             JOptionPane.showMessageDialog(this, judgement.getLeaderBoard());
-
-            //Filing
-            files.saveStats(this.judgement.getLeaderBoard());
-
-            music.stopVictoryMusic();
+            Music.stopVictoryMusic();
             parent.showWelcomeScreen();
 
         }
@@ -333,15 +336,9 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         String winnerMessage;
         Player player = judgement.getPlayer();
 
-        //stop the timer
-        timeSupport.getTimer().stop();
-
         winnerMessage = "Congratulations " + player.getPlayerName() + "!\nYou have " +
                 "successfully connected four pieces\n";
-
-        //getting game time through time support class
-        winnerMessage += "Game time: " + ( timeSupport.getGameTime().getText() );
+        winnerMessage += judgement.getGameTime();
         JOptionPane.showMessageDialog(this, winnerMessage);
     }
-
 }

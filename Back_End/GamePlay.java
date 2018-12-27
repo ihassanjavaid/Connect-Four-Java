@@ -13,6 +13,7 @@ public class GamePlay implements Playable{
     private Leaderboard leaderBoard;
 
     public GamePlay (Judgement judgement) throws IOException {
+
         gameBoard = new GameBoard();
         victoryJudge = new Judge(gameBoard, judgement);
         players[0] = new Player(JOptionPane.showInputDialog("Enter Player 1 Name:  "), "o");

@@ -1,6 +1,6 @@
 package Front_End;
-import Back_End.Filing;
 
+import Back_End.Filing;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,12 +11,12 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 import java.io.IOException;
 
+
 public class WelcomePanel extends JPanel implements ActionListener{
   //Class attributes
   private JButton playButton, closeButton, leaderBoardButton;
   private GameFrame parent;
   private Image backgroundImage;
-
   private Filing files;
   private boolean resetFlag;
 
@@ -63,7 +63,6 @@ public class WelcomePanel extends JPanel implements ActionListener{
 
     // Set reset flag to false i.e. never resetted in current gameplay
     resetFlag = false;
-
   }
 
   protected void setParent (GameFrame parent) {
@@ -78,6 +77,7 @@ public class WelcomePanel extends JPanel implements ActionListener{
     Object eventHolder = event.getSource();
 
     if (eventHolder == closeButton) {
+      Music.stopWelcomeScreenMusic();
       System.exit(0);
     }
     else if (eventHolder == playButton) {
@@ -99,9 +99,11 @@ public class WelcomePanel extends JPanel implements ActionListener{
       }
 
     }
+    else if (eventHolder == playButton) {
+        parent.showGameScreen();
+    }
 
   }
-
   private void showLeaderboard(){
     Object[] options = {"<html><b>OK</b></html>", "<html><i>Reset</i></html>"};
 
@@ -120,5 +122,5 @@ public class WelcomePanel extends JPanel implements ActionListener{
   private void noRecordsFound(){
     JOptionPane.showMessageDialog(this, "Records have been cleared!");
   }
-
+  
 }

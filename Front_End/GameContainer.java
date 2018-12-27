@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+
 public class GameContainer extends JLayeredPane {
   private WelcomePanel welcomeScreen;
   private GamePanel gameScreen;
@@ -18,6 +19,9 @@ public class GameContainer extends JLayeredPane {
 
     //Add components
     add(welcomeScreen, new Integer(1));
+    
+    //Play welcome music
+    Music.playWelcomeScreenMusic();
   }
 
   protected void setParent (GameFrame parent) {
@@ -26,15 +30,16 @@ public class GameContainer extends JLayeredPane {
   }
 
   protected void showGameScreen () throws Exception {
-      gameScreen = new GamePanel();
-      gameScreen.setParent(this.parent);
-      add(gameScreen, new Integer(0));
+    Music.stopWelcomeScreenMusic();
+    gameScreen = new GamePanel();
+    gameScreen.setParent(this.parent);
+    add(gameScreen, new Integer(0));
 
-      moveToBack(welcomeScreen);
-      moveToFront(gameScreen);
-      gameScreen.setVisible(true);
-      welcomeScreen.setVisible(false);
-      gameScreen.initialiseGame();
+    moveToBack(welcomeScreen);
+    moveToFront(gameScreen);
+    gameScreen.setVisible(true);
+    welcomeScreen.setVisible(false);
+    gameScreen.initialiseGame();
   }
 
   protected void showWelcomeScreen () {
@@ -42,6 +47,7 @@ public class GameContainer extends JLayeredPane {
     moveToFront(welcomeScreen);
     gameScreen.setVisible(false);
     welcomeScreen.setVisible(true);
+    Music.playWelcomeScreenMusic();
   }
 
 }

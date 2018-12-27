@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+
 public class GameFrame {
   //Class attributes
   public JFrame gameFrame;
@@ -36,6 +37,7 @@ public class GameFrame {
   }
 
   protected void showGameScreen () throws Exception {
+
     game.showGameScreen();
   }
 

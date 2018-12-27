@@ -4,16 +4,20 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Judgement {
+
+    private boolean gameDraw;
     private Player player;
     private String winDirection;
     private int [] winList;
-    private int counter;
+    private int counter, turnCounter;
     private long startTime, gameTime;
     private Leaderboard leaderBoard;
 
     public Judgement () {
         winDirection = "";
         counter = 0;
+        turnCounter = 0;
+        gameDraw = false;
     }
 
     public void setPlayer (Player player) {
@@ -26,6 +30,17 @@ public class Judgement {
 
     public void setLeaderBoard (Leaderboard leaderBoard) {
         this.leaderBoard = leaderBoard;
+    }
+
+    public void countTurn () {
+        this.turnCounter++;
+        if (turnCounter == 42) {
+            gameDraw = true;
+        }
+    }
+
+    public boolean getGameDraw () {
+        return this.gameDraw;
     }
 
     public void markGameTime () {
