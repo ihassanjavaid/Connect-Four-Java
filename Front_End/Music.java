@@ -9,12 +9,12 @@ public class Music {
     private static Clip welcomeScreenMusic, gameBackgroundMusic, victoryMusic, drawMusic;
 
     public static void playWelcomeScreenMusic () {
-        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\Assests\\Welcome.wav";
+        String soundFile = "Assests/Welcome.wav";
         try {
           AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
           welcomeScreenMusic = AudioSystem.getClip();
           welcomeScreenMusic.open(audioInputStream);
-          welcomeScreenMusic.start();
+          welcomeScreenMusic.loop(10);
         }
         catch (Exception e) {
             System.out.println(e);
@@ -26,12 +26,12 @@ public class Music {
     }
 
     public static void playGameBackgroundMusic() {
-        String soundFile = "Assests\\In_game.wav";
+        String soundFile = "Assests/In_game.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             gameBackgroundMusic = AudioSystem.getClip();
             gameBackgroundMusic.open(audioInputStream);
-            gameBackgroundMusic.start();
+            gameBackgroundMusic.loop(10);
         } catch (Exception e) {
         }
     }
@@ -41,7 +41,7 @@ public class Music {
     }
 
     public static void playMoveSoundEffect() {
-        String soundFile = "Assests\\Move.wav";
+        String soundFile = "Assests/Move.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             Clip moveSound = AudioSystem.getClip();
@@ -52,7 +52,7 @@ public class Music {
     }
 
     public static void playVictoryMusic() {
-        String soundFile = "Assests\\W!nner.wav";
+        String soundFile = "Assests/W!nner.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             victoryMusic = AudioSystem.getClip();
@@ -67,7 +67,7 @@ public class Music {
     }
 
     public static void playWinSoundEffect () {
-      String soundFile = "Assests\\Win_Sound.wav";
+      String soundFile = "Assests/Win_Sound.wav";
       try {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
         Clip winSound = AudioSystem.getClip();
