@@ -1,6 +1,8 @@
 package Front_End;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 
 public class GameFrame {
   //Class attributes
@@ -34,7 +36,8 @@ public class GameFrame {
 
   }
 
-  protected void showGameScreen () {
+  protected void showGameScreen () throws Exception {
+
     game.showGameScreen();
   }
 

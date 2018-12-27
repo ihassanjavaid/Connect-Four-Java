@@ -7,15 +7,15 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimeSupport implements ActionListener {
+public class TimeSupport implements ActionListener{
 
-    JLabel systemTime;
-    JLabel gameTime;
+    private JLabel systemTime;
+    private JLabel gameTime;
 
     private int timeSec;
     private int timeMin;
 
-    private Timer timer;
+    Timer timer;
 
     public TimeSupport() {
 
@@ -80,4 +80,15 @@ public class TimeSupport implements ActionListener {
         return timeMinString +":" +timeSecString;
     }
 
+    public Timer getTimer() {
+        return this.timer;
+    }
+
+    public JLabel getSystemTime() {
+        return systemTime;
+    }
+
+    public JLabel getGameTime() {
+        return gameTime;
+    }
 }

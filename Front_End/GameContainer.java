@@ -1,6 +1,8 @@
 package Front_End;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+
 
 public class GameContainer extends JLayeredPane {
   private WelcomePanel welcomeScreen;
@@ -17,6 +19,8 @@ public class GameContainer extends JLayeredPane {
 
     //Add components
     add(welcomeScreen, new Integer(1));
+    
+    //Play welcome music
     Music.playWelcomeScreenMusic();
   }
 
@@ -25,7 +29,7 @@ public class GameContainer extends JLayeredPane {
     this.parent = parent;
   }
 
-  protected void showGameScreen () {
+  protected void showGameScreen () throws Exception {
     Music.stopWelcomeScreenMusic();
     gameScreen = new GamePanel();
     gameScreen.setParent(this.parent);

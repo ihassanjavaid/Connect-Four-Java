@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Judgement {
+
     private boolean gameDraw;
     private Player player;
     private String winDirection;

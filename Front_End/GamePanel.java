@@ -1,13 +1,12 @@
 package Front_End;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
-
-import Back_End.GamePlay;
-import Back_End.Judgement;
-import Back_End.Player;
+import Back_End.*;
 
 public class GamePanel extends JPanel implements ActionListener, Playable {
     private GameFrame parent;
@@ -20,9 +19,11 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private int playerColumn, playerRow, turnTracker;
     private Judgement judgement;
     private Playable gamePlay;
+    private TimeSupport timeSupport;
+    private Filing files;
 
     //No-args constructor
-    public GamePanel () {
+    public GamePanel () throws Exception {
         judgement = new Judgement();
         judgement.setStartTime(System.currentTimeMillis());
         turnTracker = 0;
@@ -61,8 +62,17 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         add(backButton);
         add(fillLabel);
 
+        // Initialize and add clock and game time
+        timeSupport = new TimeSupport();
+        this.add(timeSupport.getSystemTime()).setBounds( 220, 0, 150, 50);
+        this.add(timeSupport.getGameTime()).setBounds(680, 0, 150, 50);
+
         //Play background music
         Music.playGameBackgroundMusic();
+
+        //Initialize Filing
+        files = new Filing();
+
     }
 
     protected void initialiseGame () {
@@ -95,7 +105,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
                 if (eventHolder == moveButtons[i]){
                     Music.playMoveSoundEffect();
                     playerColumn = i;
-                    makeMove(i);
+                    try {
+                        makeMove(i);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
