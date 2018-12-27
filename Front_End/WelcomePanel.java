@@ -78,6 +78,7 @@ public class WelcomePanel extends JPanel implements ActionListener{
     Object eventHolder = event.getSource();
 
     if (eventHolder == closeButton) {
+      Music.stopWelcomeScreenMusic();
       System.exit(0);
     }
     else if (eventHolder == playButton) {

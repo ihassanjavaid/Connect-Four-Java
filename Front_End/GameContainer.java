@@ -18,6 +18,8 @@ public class GameContainer extends JLayeredPane {
 
     //Add components
     add(welcomeScreen, new Integer(1));
+    //Play welcome screen music
+    Music.playWelcomeScreenMusic();
   }
 
   protected void setParent (GameFrame parent) {
@@ -26,6 +28,7 @@ public class GameContainer extends JLayeredPane {
   }
 
   protected void showGameScreen () throws Exception {
+      Music.stopWelcomeScreenMusic();
       gameScreen = new GamePanel();
       gameScreen.setParent(this.parent);
       add(gameScreen, new Integer(0));
@@ -38,6 +41,7 @@ public class GameContainer extends JLayeredPane {
   }
 
   protected void showWelcomeScreen () {
+    Music.playWelcomeScreenMusic();
     moveToBack(gameScreen);
     moveToFront(welcomeScreen);
     gameScreen.setVisible(false);

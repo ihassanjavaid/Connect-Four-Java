@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private Filing files;
 
     //No-args constructor
-    public GamePanel () throws Exception {
+    public GamePanel () {
         judgement = new Judgement();
         judgement.setStartTime(System.currentTimeMillis());
         turnTracker = 0;

@@ -14,7 +14,7 @@ public class Music {
           AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
           welcomeScreenMusic = AudioSystem.getClip();
           welcomeScreenMusic.open(audioInputStream);
-          welcomeScreenMusic.start();
+          welcomeScreenMusic.loop(10);
         }
         catch (Exception e) {
             System.out.println(e);
@@ -31,7 +31,7 @@ public class Music {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
             gameBackgroundMusic = AudioSystem.getClip();
             gameBackgroundMusic.open(audioInputStream);
-            gameBackgroundMusic.start();
+            gameBackgroundMusic.loop(10);
         } catch (Exception e) {
         }
     }
