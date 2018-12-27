@@ -20,12 +20,10 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private int playerColumn, playerRow, turnTracker;
     private Judgement judgement;
     private Playable gamePlay;
-    private Music music;
 
     //No-args constructor
     public GamePanel () {
         judgement = new Judgement();
-        music = new Music();
         judgement.setStartTime(System.currentTimeMillis());
         turnTracker = 0;
         moveButtons = new JButton[7]; //Seven game column
@@ -64,7 +62,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         add(fillLabel);
 
         //Play background music
-        music.playGameBackgroundMusic();
+        Music.playGameBackgroundMusic();
     }
 
     protected void initialiseGame () {
@@ -87,7 +85,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         if (eventHolder == backButton){
             int infoHolder = JOptionPane.showConfirmDialog(this, "Are you sure you want to quit?", "Warning", JOptionPane.YES_NO_OPTION);
             if (infoHolder == JOptionPane.YES_OPTION) {
-                music.stopGameBackgroundMusic();
+                Music.stopGameBackgroundMusic();
                 parent.showWelcomeScreen();
                 reset();
             }
@@ -95,7 +93,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         else{
             for (int i = 0; i < 7; i++) {
                 if (eventHolder == moveButtons[i]){
-                    music.playMoveSoundEffect();
+                    Music.playMoveSoundEffect();
                     playerColumn = i;
                     makeMove(i);
                 }
@@ -298,12 +296,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         }
         if (victoryFlag) {
             disableAllBtns();
-            music.stopGameBackgroundMusic();
-            music.playWinSoundEffect();
-            music.playVictoryMusic();
+            Music.stopGameBackgroundMusic();
+            Music.playWinSoundEffect();
+            Music.playVictoryMusic();
             showWinnerMessage();
             JOptionPane.showMessageDialog(this, judgement.getLeaderBoard());
-            music.stopVictoryMusic();
+            Music.stopVictoryMusic();
             parent.showWelcomeScreen();
 
         }

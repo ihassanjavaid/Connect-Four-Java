@@ -23,7 +23,7 @@ public class Music {
       welcomeScreenMusic.stop();
     }
 
-    public void playGameBackgroundMusic() {
+    public static void playGameBackgroundMusic() {
         String soundFile = "Assests\\In_game.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
@@ -34,11 +34,11 @@ public class Music {
         }
     }
 
-    public void stopGameBackgroundMusic() {
+    public static void stopGameBackgroundMusic() {
         gameBackgroundMusic.stop();
     }
 
-    public void playMoveSoundEffect() {
+    public static void playMoveSoundEffect() {
         String soundFile = "Assests\\Move.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
@@ -49,7 +49,7 @@ public class Music {
         }
     }
 
-    public void playVictoryMusic() {
+    public static void playVictoryMusic() {
         String soundFile = "Assests\\W!nner.wav";
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
@@ -60,11 +60,11 @@ public class Music {
         }
     }
 
-    public void stopVictoryMusic() {
+    public static void stopVictoryMusic() {
         victoryMusic.stop();
     }
 
-    public void playWinSoundEffect () {
+    public static void playWinSoundEffect () {
       String soundFile = "Assests\\Win_Sound.wav";
       try {
         AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
@@ -75,7 +75,7 @@ public class Music {
       }
     }
 
-    public void playDrawMusic () {
+    public static void playDrawMusic () {
       String soundFile = "Assests/Draw.wav";
       try {
         AudioInputStream audioInputStream = AudioS.getAudioInputStream(new File(soundFile).getAbsoluteFile());
@@ -86,7 +86,7 @@ public class Music {
       catch (Exception e) {}
     }
 
-    public void stopDrawMusic () {
+    public static void stopDrawMusic () {
       drawMusic.stop();
     }
 }
