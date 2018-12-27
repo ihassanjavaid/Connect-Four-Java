@@ -2,11 +2,3 @@ Player One: Hassan
 Player two: Osama
 Winner: Hassan
 Game time: 03:00
-Player 1: Hassan
-Player 2: Baba
-Winner: Hassan
-Game time: 38 seconds
-Player 1: Mama
-Player 2: Hassan
-Winner: Mama
-Game time: 1 Minutes 57 seconds
