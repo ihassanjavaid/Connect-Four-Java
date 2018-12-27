@@ -6,17 +6,19 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 public class Music {
-    private Clip welcomeScreenMusic, gameBackgroundMusic, victoryMusic, drawMusic;
+    private static Clip welcomeScreenMusic, gameBackgroundMusic, victoryMusic, drawMusic;
 
     public static void playWelcomeScreenMusic () {
-        String soundFile = "Assests/welcome.wav";
+        String soundFile = "D:\\University\\Object Oriented Programming\\Semester Project\\Assests\\Welcome.wav";
         try {
           AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
           welcomeScreenMusic = AudioSystem.getClip();
           welcomeScreenMusic.open(audioInputStream);
           welcomeScreenMusic.start();
         }
-        catch (Exception e) {}
+        catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     public static void stopWelcomeScreenMusic () {
@@ -78,7 +80,7 @@ public class Music {
     public static void playDrawMusic () {
       String soundFile = "Assests/Draw.wav";
       try {
-        AudioInputStream audioInputStream = AudioS.getAudioInputStream(new File(soundFile).getAbsoluteFile());
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFile).getAbsoluteFile());
         drawMusic = AudioSystem.getClip();
         drawMusic.open(audioInputStream);
         drawMusic.start();

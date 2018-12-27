@@ -3,6 +3,7 @@ import Front_End.Playable;
 
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class GamePlay implements Playable{
     private Player [] players = new Player[2];

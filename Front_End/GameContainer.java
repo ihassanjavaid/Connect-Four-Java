@@ -17,6 +17,7 @@ public class GameContainer extends JLayeredPane {
 
     //Add components
     add(welcomeScreen, new Integer(1));
+    Music.playWelcomeScreenMusic();
   }
 
   protected void setParent (GameFrame parent) {

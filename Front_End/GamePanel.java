@@ -104,14 +104,24 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     //Method connecting back end to front end
     public void makeMove (int columnNumber) {
         gamePlay.makeMove(columnNumber);
-        if (judgement.getPlayerRow() == 0){
-            moveButtons[columnNumber].setEnabled(false);
+        if (!judgement.getGameDraw()) {
+            if (judgement.getPlayerRow() == 0){
+                moveButtons[columnNumber].setEnabled(false);
+            }
+            playerRow = judgement.getPlayerRow();
+            setPlayerPiece();
+            setTurnBar();
+            updateBoard();
+            setVictoryBar();
         }
-        playerRow = judgement.getPlayerRow();
-        setPlayerPiece();
-        setTurnBar();
-        updateBoard();
-        setVictoryBar();
+        else {
+            Music.stopGameBackgroundMusic();
+            Music.playDrawMusic();
+            JOptionPane.showMessageDialog(this, "Game draw!", "Draw", JOptionPane.INFORMATION_MESSAGE);
+            Music.stopDrawMusic();
+            parent.showWelcomeScreen();
+        }
+
     }
 
     //Method to reset game screen

@@ -8,7 +8,6 @@ public class Judge {
     public Judge (GameBoard gameBoard, Judgement judgement) {
         this.gameBoard = gameBoard;
         this.judgement = judgement;
-
     }
 
     protected void makeJudgement (Player player) {
@@ -19,6 +18,7 @@ public class Judge {
         3. Which player won?
         4. The list of piece coordinates
          */
+        judgement.countTurn();
         judgement.setPlayer(player);
         boolean victoryFlag;
         String playerMarker = player.getPlayerMarker();
