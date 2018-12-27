@@ -1,106 +1,104 @@
 package Back_End;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class Judgement {
+  private boolean gameDraw;
+  private Player player;
+  private String winDirection;
+  private int [] winList;
+  private int counter, turnCounter;
+  private long startTime, gameTime;
+  private Leaderboard leaderBoard;
 
-    private boolean gameDraw;
-    private Player player;
-    private String winDirection;
-    private int [] winList;
-    private int counter, turnCounter;
-    private long startTime, gameTime;
-    private Leaderboard leaderBoard;
+  public Judgement () {
+    turnCounter = 0;
+    gameDraw = false;
+    winDirection = "";
+    counter = 0;
+  }
 
-    public Judgement () {
-        winDirection = "";
-        counter = 0;
-        turnCounter = 0;
-        gameDraw = false;
+  public void setPlayer (Player player) {
+      this.player = player;
+  }
+
+  public void setStartTime (long startTime) {
+      this.startTime = startTime;
+  }
+
+  public void setLeaderBoard (Leaderboard leaderBoard) {
+      this.leaderBoard = leaderBoard;
+  }
+
+  public void countTurn () {
+    turnCounter++;
+    if (turnCounter == 42) {
+      gameDraw = true;
     }
+  }
 
-    public void setPlayer (Player player) {
-        this.player = player;
-    }
+  public void markGameTime () {
+      long endTime = System.currentTimeMillis();
+      gameTime = endTime - startTime;
+  }
 
-    public void setStartTime (long startTime) {
-        this.startTime = startTime;
-    }
+  public void setWinDirection (String winDirection) {
+      this.winDirection = winDirection;
+  }
 
-    public void setLeaderBoard (Leaderboard leaderBoard) {
-        this.leaderBoard = leaderBoard;
-    }
+  public void initialiseWinList (int num) {
+      winList = new int[num];
+      counter = 0;
+  }
 
-    public void countTurn () {
-        this.turnCounter++;
-        if (turnCounter == 42) {
-            gameDraw = true;
-        }
-    }
+  public void addToWinList (int num){
+      winList[counter] = num;
+      counter++;
+  }
 
-    public boolean getGameDraw () {
-        return this.gameDraw;
-    }
+  public void flushWinList () {
+      initialiseWinList(0);
+      counter = 0;
+  }
 
-    public void markGameTime () {
-        long endTime = System.currentTimeMillis();
-        gameTime = endTime - startTime;
-    }
+  public boolean isGameDraw () {
+    return this.gameDraw;
+  }
 
-    public void setWinDirection (String winDirection) {
-        this.winDirection = winDirection;
-    }
+  public Player getPlayer () {
+      return this.player;
+  }
 
-    public void initialiseWinList (int num) {
-        winList = new int[num];
-        counter = 0;
-    }
+  public int [] getWinList () {
+      return this.winList;
+  }
 
-    public void addToWinList (int num){
-        winList[counter] = num;
-        counter++;
-    }
+  public  String getWinDirection () {
+      return this.winDirection;
+  }
 
-    public void flushWinList () {
-        initialiseWinList(0);
-        counter = 0;
-    }
+  public int getPlayerRow () {
+      return player.getPlayerRow();
+  }
 
-    public Player getPlayer () {
-        return this.player;
-    }
+  public String getPlayerMarker () {
+      return player.getPlayerMarker();
+  }
 
-    public int [] getWinList () {
-        return this.winList;
-    }
+  public String getGameTime () {
+      String timeElasped;
+      long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(this.gameTime);
+      int minutes = (int)(totalSeconds/ 60);
+      int seconds = (int)(totalSeconds % 60);
+      if (minutes > 0)
+          timeElasped = "Game time: " + minutes + " Minutes " + seconds + " seconds";
+      else
+          timeElasped = "Game time: " + seconds + " seconds";
+      return timeElasped;
+  }
 
-    public  String getWinDirection () {
-        return this.winDirection;
-    }
-
-    public int getPlayerRow () {
-        return player.getPlayerRow();
-    }
-
-    public String getPlayerMarker () {
-        return player.getPlayerMarker();
-    }
-
-    public String getGameTime () {
-        String timeElasped;
-        long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(this.gameTime);
-        int minutes = (int)(totalSeconds/ 60);
-        int seconds = (int)(totalSeconds % 60);
-        if (minutes > 0)
-            timeElasped = "Game time: " + minutes + " Minutes " + seconds + " seconds";
-        else
-            timeElasped = "Game time: " + seconds + " seconds";
-        return timeElasped;
-    }
-
-    public Leaderboard getLeaderBoard () {
-        return leaderBoard;
-    }
+  public Leaderboard getLeaderBoard () {
+      return leaderBoard;
+  }
 
 }
