@@ -28,4 +28,13 @@ public class Leaderboard implements Serializable {
         return leaderBoard;
     }
 
+    public String toStringForDialgoueBox(){
+        String leaderBoard = playerOneName;
+        leaderBoard += "\n" + playerTwoName;
+        leaderBoard += "\n" + winner;
+        leaderBoard += "\n" + gameTime;
+
+        return leaderBoard;
+    }
+
 }
