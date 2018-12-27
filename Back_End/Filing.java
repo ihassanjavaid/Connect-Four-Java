@@ -1,69 +1,138 @@
 package Back_End;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Filing {
-    private ObjectOutputStream opStream;
-    private FileOutputStream file;
-    private Leaderboard[] leaderboards;
 
-    public Filing() throws Exception {
+    private static File gameFile = new File("gamefile.txt");
+    private static PrintWriter printWriter;
 
-        leaderboards = fetchLeaderboardDatabase();
-        file = new FileOutputStream("gamefile.txt");
-        opStream = new ObjectOutputStream(file);
+    private static Leaderboard[] leaderboards;
+
+    private static int NumberOfRecords = 0;
+
+    static {
 
         try {
-            for (int i = 0; i < leaderboards.length; i++) {
-                opStream.writeObject(leaderboards[i].toString());
-                opStream.flush();
+            leaderboards = fetchDatabase();
+        }
+        catch (Exception e) {
+            // catch exception
+        }
+
+    }
+
+    public Filing() {
+
+        if ( !gameFile.exists() ){
+            try {
+                printWriter = new PrintWriter(gameFile);
+            } catch (FileNotFoundException fnfe) {
+                // catch exception
             }
         }
-        catch (NullPointerException ne){
-            ne.printStackTrace();
+
+    }
+
+    public void saveStats(Leaderboard currentLeaderboard){
+
+        try {
+            printWriter = new PrintWriter(gameFile);
+        } catch (FileNotFoundException fnfe) {
+            // catch exception
         }
+
+        if ( NumberOfRecords > 0 ) {
+
+            for (Leaderboard oldStats : leaderboards) {
+                printWriter.println(oldStats.playerOneName);
+                printWriter.println(oldStats.playerTwoName);
+                printWriter.println(oldStats.winner);
+                printWriter.println(oldStats.gameTime);
+            }
+        }
+
+        printWriter.println("Player 1: "+currentLeaderboard.playerOneName);
+        printWriter.println("Player 2: "+currentLeaderboard.playerTwoName);
+        printWriter.println("Winner: "+currentLeaderboard.winner);
+        printWriter.println(""+currentLeaderboard.gameTime);
+
+        printWriter.close();
+
     }
 
-    public void saveStats(Leaderboard leaderboard_in) throws Exception {
+    private static Leaderboard [] fetchDatabase() throws Exception {
 
-        opStream.writeObject(leaderboard_in.toString());
-        opStream.close();
-    }
+        Scanner fileReader = null;
+        try {
+            fileReader = new Scanner(new File("gamefile.txt"));
+        } catch (FileNotFoundException fnfe) {
+            // catch exception
+        }
 
-    private Leaderboard[] fetchLeaderboardDatabase() throws  Exception {
-
-        Scanner reader = new Scanner(new File("gamefile.txt"));
-        Leaderboard[] savedGames = new Leaderboard[NumberOfRecords()];
+        Leaderboard [] leaderboards = new Leaderboard[0];
+        try {
+            leaderboards = new Leaderboard[NumberOfRecords()];
+        } catch (Exception e) {
+            // catch exception
+        }
         int i;
 
-
         i = 0;
-        while (reader.hasNextLine()){
-            savedGames[i] = new Leaderboard("", "");
-            savedGames[i].playerOneName = reader.nextLine();
-            savedGames[i].playerTwoName = reader.nextLine();
-            savedGames[i].winner = reader.nextLine();
-            savedGames[i].gameTime = reader.nextLine();
+        while (fileReader.hasNextLine()){
+            leaderboards[i] = new Leaderboard("", "");
+            leaderboards[i].playerOneName = fileReader.nextLine();
+            leaderboards[i].playerTwoName = fileReader.nextLine();
+            leaderboards[i].winner = fileReader.nextLine();
+            leaderboards[i].gameTime = fileReader.nextLine();
             i++;
         }
-        return savedGames;
-
+        return leaderboards;
     }
 
-    private int NumberOfRecords() throws Exception{
+    private static int NumberOfRecords() throws Exception{
 
-        Scanner FileRead = new Scanner(new File("gamefile.txt"));
+        Scanner fileReader = null;
+        try {
+            fileReader = new Scanner(new File("gamefile.txt"));
+        } catch (FileNotFoundException fnfe) {
+            // catch exception
+        }
         int lineCount = 0;
 
-        while(FileRead.hasNext()){ //while not the end of file
-            FileRead.nextLine(); //Go to next line
-            lineCount++; //Count the line
+        while(fileReader.hasNext()){
+            fileReader.nextLine();
+            lineCount++;
         }
-            /*
-              Each game has 4 attributes, so number of games is obtained
-              by dividing the number of lines by 4
-            */
-        return (lineCount/4);
+
+        //System.out.println("lines: "+lineCount/4);
+
+        NumberOfRecords = (lineCount/4);
+        return (lineCount / 4);
     }
+
+    public String getLastRecord(){
+
+        if ( NumberOfRecords > 0) {
+            return leaderboards[leaderboards.length - 1].toStringForDialgoueBox();
+        }
+
+        else{
+            return "No Record found!";
+        }
+    }
+
+    public void flushRecords(){
+
+        try {
+            printWriter = new PrintWriter(gameFile);
+        }
+        catch (FileNotFoundException fnfe) {
+            // catch exception
+        }
+    }
+
 }
