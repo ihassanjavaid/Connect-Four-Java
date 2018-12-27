@@ -130,14 +130,20 @@ public class Filing {
                 // catch exception
             }
 
+            boolean hasSomeLines = false;
+
             try {
                 for (int j = 0; j < 4; j++) {
                     if (fileReader.hasNextLine()) {
+
+                        hasSomeLines = true;
+
                         lastRecord += fileReader.nextLine();
                         lastRecord += "\n";
                     }
-                    else
+                    else if ( !hasSomeLines ){
                         return "No record found!";
+                    }
                 }
             }
             catch (NullPointerException npe){
