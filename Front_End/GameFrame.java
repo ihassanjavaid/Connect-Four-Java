@@ -19,6 +19,8 @@ public class GameFrame {
     gameFrame.setResizable(false);
     gameFrame.setLayout(new BorderLayout());
     gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    Image gameIcon = new ImageIcon("Assests/Icon.png").getImage();
+    gameFrame.setIconImage(gameIcon);
 
     //Initialise components
     game = new GameContainer();
