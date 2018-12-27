@@ -1,4 +1,6 @@
 package Front_End;
+import Back_End.Filing;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +16,9 @@ public class WelcomePanel extends JPanel implements ActionListener{
   private JButton playButton, closeButton, leaderBoardButton;
   private GameFrame parent;
   private Image backgroundImage;
+
+  private Filing files;
+  private boolean resetFlag;
 
   //No-args constructor
   public WelcomePanel () {
@@ -53,6 +58,12 @@ public class WelcomePanel extends JPanel implements ActionListener{
     add(closeButton).setBounds(370, 510, 290, 130);
     add(leaderBoardButton).setBounds(900, 0, 100, 100);
 
+    //Add Filing
+    files = new Filing();
+
+    // Set reset flag to false i.e. never resetted in current gameplay
+    resetFlag = false;
+
   }
 
   protected void setParent (GameFrame parent) {
@@ -78,9 +89,36 @@ public class WelcomePanel extends JPanel implements ActionListener{
       }
     }
     else if (eventHolder == leaderBoardButton) {
-      System.out.println("Hi!");
+
+      if ( !resetFlag ) {
+        showLeaderboard();
+      }
+
+      else{
+        noRecordsFound();
+      }
+
     }
 
+  }
+
+  private void showLeaderboard(){
+    Object[] options = {"<html><b>OK</b></html>", "<html><i>Reset</i></html>"};
+
+    int optionsInt = JOptionPane.showOptionDialog(this, files.getLastRecord(), "Leaderboard!",
+            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+            null, options, options[1]);
+
+    if ( optionsInt == 1 ){ // if user presses reset
+
+      files.flushRecords();
+      resetFlag = true;
+      noRecordsFound();
+    }
+  }
+
+  private void noRecordsFound(){
+    JOptionPane.showMessageDialog(this, "Records have been cleared!");
   }
 
 }
