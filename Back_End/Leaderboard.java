@@ -1,8 +1,6 @@
 package Back_End;
 
-import java.io.Serializable;
-
-public class Leaderboard implements Serializable {
+public class Leaderboard {
     protected String playerOneName, playerTwoName, winner, gameTime;
 
     public Leaderboard (String playerOneName, String playerTwoName) {
