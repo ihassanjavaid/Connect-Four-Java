@@ -30,7 +30,7 @@ public class WelcomePanel extends JPanel implements ActionListener{
     backgroundImage = new ImageIcon("Assests/Main Screen.png").getImage();
     ImageIcon play = new ImageIcon("Assests/Play button.png");
     ImageIcon exit = new ImageIcon("Assests/Exit button.png");
-    ImageIcon leaderBoard = new ImageIcon("Assests\\Leaderboard_icon.png");
+    ImageIcon leaderBoard = new ImageIcon("Assests/Leaderboard_icon.png");
 
     playButton = new JButton(play);
     playButton.setOpaque(false);
