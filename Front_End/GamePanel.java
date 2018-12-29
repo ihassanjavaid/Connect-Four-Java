@@ -44,11 +44,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         backButton.setBounds(900, 785, 100, 25);
         backButton.addActionListener(this);
 
-        //Set background image
-        ImageIcon backGroundImage = new ImageIcon("Assests/GameBG.gif");
-        JLabel backgroundLabel = new JLabel(backGroundImage);
-        backgroundLabel.setBounds(0, 0, 1005, 845);
-
         //Set fill image
         ImageIcon fillImage = new ImageIcon("Assests/BG_Fill.png");
         JLabel fillLabel = new JLabel(fillImage);
