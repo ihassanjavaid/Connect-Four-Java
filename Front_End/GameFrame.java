@@ -16,6 +16,7 @@ public class GameFrame {
     //Set frame properties
     gameFrame.setPreferredSize(new Dimension(1005, 845));
     gameFrame.setSize(new Dimension(1005, 845));
+    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     gameFrame.setLocation(dim.width/2-gameFrame.getSize().width/2, dim.height/2-gameFrame.getSize().height/2);
     gameFrame.setResizable(false);
     gameFrame.setLayout(new BorderLayout());
