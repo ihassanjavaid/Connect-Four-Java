@@ -88,13 +88,8 @@ public class Judge {
             judgement.setWinDirection("Horizontal");
         }
         else {
-            judgement.flushWinList();
-            judgement.initialiseWinList(5);
-
             // Checking East from the point of player's latest move
-
             column = PlayerColumn;
-            judgement.addToWinList(column);
 
             while (column < 7 && !victoryFlag) {
 
