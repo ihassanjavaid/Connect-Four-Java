@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private int playerColumn, playerRow, turnTracker;
     private Judgement judgement;
     private Playable gamePlay;
-    private TimeSupport timeSupport;
 
     //No-args constructor
     public GamePanel () {
@@ -56,14 +55,12 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         add(backButton);
         add(fillLabel);
 
-        // Initialize and add clock and game time
-        timeSupport = new TimeSupport();
-        this.add(timeSupport.getSystemTime()).setBounds( 220, 0, 150, 50);
-        this.add(timeSupport.getGameTime()).setBounds(680, 0, 150, 50);
+        // Add clock and game time
+        this.add(TimeSupport.getSystemTime()).setBounds( 220, 0, 150, 50);
+        this.add(TimeSupport.getGameTime()).setBounds(680, 0, 150, 50);
 
         //Play background music
         Music.playGameBackgroundMusic();
-
 
     }
 
@@ -218,7 +215,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     }
 
     //Method to connect four similar pieces
-    private void setVictoryBar () throws Exception {
+    private void setVictoryBar () {
         boolean victoryFlag = false;
         String winDirection = judgement.getWinDirection();
         int [] winList = judgement.getWinList();
@@ -333,13 +330,13 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         Player player = judgement.getPlayer();
 
         //stop the timer
-        timeSupport.getTimer().stop();
+        TimeSupport.getTimer().stop();
 
         winnerMessage = "Congratulations " + player.getPlayerName() + "!\nYou have " +
                 "successfully connected four pieces\n";
 
         //getting game time through time support class
-        winnerMessage += "Game time: " + ( timeSupport.getGameTime().getText() );
+        winnerMessage += "Game time: " + ( TimeSupport.getGameTime().getText() );
         JOptionPane.showMessageDialog(this, winnerMessage);
     }
 
