@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimeSupport implements ActionListener{
+public class TimeSupport {
 
     private static JLabel systemTime;
     private static JLabel gameTime;
@@ -43,10 +43,7 @@ public class TimeSupport implements ActionListener{
         });
         timer.start();
     }
-
-    public void actionPerformed(ActionEvent ae) {
-    }
-
+    
     private static void getTimeNow() {
 
         timeSec++;
