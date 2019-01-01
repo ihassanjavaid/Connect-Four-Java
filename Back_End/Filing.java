@@ -9,35 +9,34 @@ public class Filing {
 
     private static File gameFile = new File("gamefile.txt");
     private static PrintWriter printWriter;
-
     private static Leaderboard[] leaderboards;
-
     private static int NumberOfRecords = 0;
 
     static {
 
-        try {
-            leaderboards = fetchDatabase();
-        }
-        catch (Exception e) {
-            // catch exception
-        }
-
-    }
-
-    public Filing() {
-
         if ( !gameFile.exists() ){
+
             try {
+                /*
+                Make a new file if a file already not exists
+                Making an object of PrintWriter flushes the file
+                */
                 printWriter = new PrintWriter(gameFile);
-            } catch (FileNotFoundException fnfe) {
+
+                /*
+                 Make a leaderboard-type array from the existing record (if found)
+                 So that when a new printwriter is made, old entries are not dissipated
+                 */
+                leaderboards = fetchDatabase();
+            }
+            catch (Exception e) {
                 // catch exception
             }
         }
 
     }
 
-    public void saveStats(Leaderboard currentLeaderboard){
+    public static void saveStats(Leaderboard currentLeaderboard){
 
         try {
             printWriter = new PrintWriter(gameFile);
@@ -93,7 +92,7 @@ public class Filing {
         return leaderboards;
     }
 
-    private static int NumberOfRecords() throws Exception{
+    private static int NumberOfRecords() {
 
         Scanner fileReader = null;
         try {
@@ -103,18 +102,21 @@ public class Filing {
         }
         int lineCount = 0;
 
-        while(fileReader.hasNext()){
-            fileReader.nextLine();
-            lineCount++;
+        try {
+            while (fileReader.hasNext()) {
+                fileReader.nextLine();
+                lineCount++;
+            }
         }
-
-        //System.out.println("lines: "+lineCount/4);
+        catch (NullPointerException npe){
+            //Catch exception
+        }
 
         NumberOfRecords = (lineCount/4);
         return (lineCount / 4);
     }
 
-    public String getLastRecord(){
+    public static String getLastRecord(){
 
         if ( NumberOfRecords > 0) {
             return leaderboards[leaderboards.length - 1].toStringForDialgoueBox();
@@ -153,7 +155,7 @@ public class Filing {
         }
     }
 
-    public void flushRecords(){
+    public static void flushRecords(){
 
         try {
             printWriter = new PrintWriter(gameFile);
