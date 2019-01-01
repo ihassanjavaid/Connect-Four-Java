@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         fillLabel.setBounds(0, 770, 1000, 60);
 
         //Set files paths
-        gameImg = new ImageIcon("Assests/GameBG.png").getImage();
+        gameImg = new ImageIcon("Assests/GameBG.gif").getImage();
 
         //Add components
         add(turnInformer);
