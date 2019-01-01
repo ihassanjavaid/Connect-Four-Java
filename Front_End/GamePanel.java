@@ -20,7 +20,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
     private Judgement judgement;
     private Playable gamePlay;
     private TimeSupport timeSupport;
-    private Filing files;
 
     //No-args constructor
     public GamePanel () {
@@ -65,8 +64,6 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
         //Play background music
         Music.playGameBackgroundMusic();
 
-        //Initialize Filing
-        files = new Filing();
 
     }
 
@@ -323,7 +320,7 @@ public class GamePanel extends JPanel implements ActionListener, Playable {
             JOptionPane.showMessageDialog(this, judgement.getLeaderBoard());
 
             //Filing
-            files.saveStats(this.judgement.getLeaderBoard());
+            Filing.saveStats(this.judgement.getLeaderBoard());
 
             Music.stopVictoryMusic();
             parent.showWelcomeScreen();
