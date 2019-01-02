@@ -32,7 +32,7 @@ public class Judge {
         }
 
         if (!victoryFlag) {
-            diagonalJudge(playerMarker, playerRow, playerColumn);
+            victoryFlag = diagonalJudge(playerMarker, playerRow, playerColumn);
         }
 
         if (victoryFlag) {
